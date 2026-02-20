@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Общая информация.md",
+                "file": "index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Общая информация"
+              "title": "index"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Общая информация.md",
+                "file": "index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для Общая информация"
+              "title": "Обратные ссылки для index"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Общая информация.md",
+                "file": "index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Исходящие ссылки из Общая информация"
+              "title": "Исходящие ссылки из index"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Общая информация.md",
+                "file": "index.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Структура Общая информация"
+              "title": "Структура index"
             }
           }
         ]
@@ -186,24 +186,23 @@
   },
   "active": "b6566d990a10eb50",
   "lastOpenFiles": [
-    "общая-информация-content.html",
-    "site-lib/html/file-tree-content-content.html",
-    "Энциклопедия/ресурсы-content.html",
-    "Энциклопедия/Города.md",
-    "Энциклопедия/города-content.html",
-    "site-lib/media/6155340132a851f6089e.html",
-    "site-lib/media/favicon.html",
-    "site-lib/media/2308ab1944a6bfa5c5b8.html",
-    "site-lib/metadata.html",
-    "site-lib/search-index.html",
-    "Общая информация.md",
+    "общая-информация-content-content.html",
+    "site-lib/search-index-content.html",
+    "site-lib/media/favicon-content.html",
+    "site-lib/media/6155340132a851f6089e-content.html",
+    "site-lib/metadata-content.html",
+    "site-lib/media/2308ab1944a6bfa5c5b8-content.html",
+    "site-lib/html/file-tree-content-content-content.html",
     "Энциклопедия/Ресурсы.md",
-    "site-lib/search-index.json",
-    "site-lib/metadata.json",
+    "Энциклопедия/ресурсы-content-content.html",
+    "Энциклопедия/города-content-content.html",
+    "Энциклопедия/Города.md",
+    "index.md",
+    "index.html",
+    "общая-информация-content.html",
     "site-lib/media/favicon.png",
     "site-lib/media/6155340132a851f6089e.svg",
     "site-lib/media/2308ab1944a6bfa5c5b8.svg",
-    "index.md",
     "index — копия.md",
     "Энциклопедия/123.md"
   ]
