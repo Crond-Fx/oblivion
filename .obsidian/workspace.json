@@ -20,19 +20,8 @@
               "icon": "lucide-file",
               "title": "Введение"
             }
-          },
-          {
-            "id": "6867c1fdcdc58b47",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "Новая вкладка"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -195,9 +184,10 @@
       "webpage-html-export:Export as HTML": false
     }
   },
-  "active": "6867c1fdcdc58b47",
+  "active": "b6566d990a10eb50",
   "lastOpenFiles": [
     "Введение.md",
+    "README.md",
     "Энциклопедия/Ресурсы.md",
     "site-lib/search-index.json",
     "site-lib/metadata.json",
