@@ -11,10 +11,14 @@
             "id": "b6566d990a10eb50",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Новая вкладка"
+              "title": "README"
             }
           }
         ]
@@ -180,21 +184,21 @@
       "webpage-html-export:Export as HTML": false
     }
   },
-  "active": "b6566d990a10eb50",
+  "active": "02c93c5345adc47a",
   "lastOpenFiles": [
+    "img/vangelos.jpg",
+    "img",
+    "энциклопедия/ресурсы.html",
+    "энциклопедия/эфирный-вестник-№1001.html",
+    "энциклопедия/общая-информация.html",
+    "энциклопедия/города.html",
+    "энциклопедия",
     "site-lib/rss.xml",
     "готовое/ресурсы.html",
     "готовое/общая-информация.html",
     "готовое/города.html",
-    "готовое",
     "Энциклопедия/Ресурсы.md",
-    "Энциклопедия/ресурсы.html",
     "Энциклопедия/Города.md",
-    "Энциклопедия/ресурсы-content.html",
-    "Энциклопедия/ресурсы-content-content.html",
-    "Энциклопедия/города.html",
-    "Энциклопедия/города-content.html",
-    "Энциклопедия/города-content-content.html",
     "site-lib/media/favicon.png",
     "site-lib/media/6155340132a851f6089e.svg",
     "site-lib/media/2308ab1944a6bfa5c5b8.svg",
