@@ -150,7 +150,7 @@
     },
     "sidebarOptions": {
       "featureId": "sidebar",
-      "enabled": true,
+      "enabled": false,
       "unavailable": false,
       "alwaysEnabled": false,
       "hideSettingsButton": false,
@@ -198,7 +198,7 @@
       "alwaysEnabled": false,
       "hideSettingsButton": true
     },
-    "relativeHeaderLinks": false,
+    "relativeHeaderLinks": true,
     "includeJS": true,
     "includeCSS": true,
     "inlineMedia": false,
@@ -226,7 +226,7 @@
   "onlyExportModified": true,
   "deleteOldFiles": true,
   "exportPreset": "online",
-  "openAfterExport": true,
+  "openAfterExport": false,
   "filePickerBlacklist": [
     "(^|\\/)node_modules\\/",
     "(^|\\/)dist\\/",
