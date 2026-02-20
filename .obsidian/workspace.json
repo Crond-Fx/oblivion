@@ -11,14 +11,10 @@
             "id": "b6566d990a10eb50",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Энциклопедия/Города.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Города"
+              "title": "Новая вкладка"
             }
           }
         ]
@@ -186,23 +182,24 @@
   },
   "active": "b6566d990a10eb50",
   "lastOpenFiles": [
-    "README.md",
-    "Энциклопедия/Города.md",
-    "Введение.md",
     "Энциклопедия/Ресурсы.md",
-    "site-lib/search-index.json",
-    "site-lib/metadata.json",
-    "site-lib/search-index-content-content-content.html",
-    "index-content.html",
-    "site-lib/metadata-content-content-content.html",
-    "site-lib/media/favicon-content-content-content.html",
-    "site-lib/media/6155340132a851f6089e-content-content-content.html",
-    "site-lib/media/2308ab1944a6bfa5c5b8-content-content-content.html",
-    "site-lib/html/file-tree-content-content-content-content-content.html",
-    "Энциклопедия/ресурсы-content-content-content-content.html",
+    "Энциклопедия/ресурсы.html",
+    "Энциклопедия/Города.md",
+    "Энциклопедия/ресурсы-content.html",
+    "Энциклопедия/ресурсы-content-content.html",
+    "Энциклопедия/города.html",
+    "Энциклопедия/города-content.html",
+    "Энциклопедия/города-content-content.html",
+    "Энциклопедия",
+    "site-lib/html/file-tree-content.html",
+    "site-lib/html/file-tree-content-content.html",
+    "site-lib/html/file-tree-content-content-content.html",
     "site-lib/media/favicon.png",
     "site-lib/media/6155340132a851f6089e.svg",
     "site-lib/media/2308ab1944a6bfa5c5b8.svg",
+    "README.md",
+    "README — копия.md",
+    "Введение.md",
     "index — копия.md",
     "Энциклопедия/123.md"
   ]

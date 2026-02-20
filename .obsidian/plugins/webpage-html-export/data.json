@@ -11,9 +11,7 @@
     "displayProgress": true,
     "inlineHTML": false,
     "exportPath": "C:\\Users\\Crond\\iCloudDrive\\iCloud~md~obsidian\\Обливион",
-    "filesToExport": [
-      "all"
-    ],
+    "filesToExport": [],
     "useFallbackRenderer": false,
     "addBodyClasses": true,
     "addMathjaxStyles": true,
@@ -184,7 +182,7 @@
     },
     "rssOptions": {
       "featureId": "rss",
-      "enabled": true,
+      "enabled": false,
       "unavailable": false,
       "alwaysEnabled": false,
       "hideSettingsButton": false,
@@ -226,7 +224,7 @@
   "onlyExportModified": true,
   "deleteOldFiles": true,
   "exportPreset": "online",
-  "openAfterExport": false,
+  "openAfterExport": true,
   "filePickerBlacklist": [
     "(^|\\/)node_modules\\/",
     "(^|\\/)dist\\/",
