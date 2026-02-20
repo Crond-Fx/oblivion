@@ -198,7 +198,7 @@
       "alwaysEnabled": false,
       "hideSettingsButton": true
     },
-    "relativeHeaderLinks": true,
+    "relativeHeaderLinks": false,
     "includeJS": true,
     "includeCSS": true,
     "inlineMedia": false,
