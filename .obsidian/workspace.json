@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
+                "file": "Введение.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "Введение"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "Введение.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для index"
+              "title": "Обратные ссылки для Введение"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "index.md",
+                "file": "Введение.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Исходящие ссылки из index"
+              "title": "Исходящие ссылки из Введение"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "index.md",
+                "file": "Введение.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Структура index"
+              "title": "Структура Введение"
             }
           }
         ]
@@ -186,20 +186,19 @@
   },
   "active": "b6566d990a10eb50",
   "lastOpenFiles": [
-    "общая-информация-content-content.html",
-    "site-lib/search-index-content.html",
-    "site-lib/media/favicon-content.html",
-    "site-lib/media/6155340132a851f6089e-content.html",
-    "site-lib/metadata-content.html",
-    "site-lib/media/2308ab1944a6bfa5c5b8-content.html",
-    "site-lib/html/file-tree-content-content-content.html",
     "Энциклопедия/Ресурсы.md",
-    "Энциклопедия/ресурсы-content-content.html",
-    "Энциклопедия/города-content-content.html",
+    "site-lib/search-index.json",
+    "site-lib/metadata.json",
+    "site-lib/search-index-content-content-content.html",
+    "index-content.html",
+    "site-lib/metadata-content-content-content.html",
+    "site-lib/media/favicon-content-content-content.html",
+    "site-lib/media/6155340132a851f6089e-content-content-content.html",
+    "site-lib/media/2308ab1944a6bfa5c5b8-content-content-content.html",
+    "site-lib/html/file-tree-content-content-content-content-content.html",
+    "Энциклопедия/ресурсы-content-content-content-content.html",
     "Энциклопедия/Города.md",
-    "index.md",
-    "index.html",
-    "общая-информация-content.html",
+    "Введение.md",
     "site-lib/media/favicon.png",
     "site-lib/media/6155340132a851f6089e.svg",
     "site-lib/media/2308ab1944a6bfa5c5b8.svg",
