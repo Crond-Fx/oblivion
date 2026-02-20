@@ -11,14 +11,12 @@
             "id": "b6566d990a10eb50",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
+                "file": "img/vangelos.jpg"
               },
-              "icon": "lucide-file",
-              "title": "README"
+              "icon": "lucide-image",
+              "title": "vangelos"
             }
           }
         ]
@@ -184,8 +182,9 @@
       "webpage-html-export:Export as HTML": false
     }
   },
-  "active": "02c93c5345adc47a",
+  "active": "b6566d990a10eb50",
   "lastOpenFiles": [
+    "README.md",
     "img/vangelos.jpg",
     "img",
     "энциклопедия/ресурсы.html",
@@ -202,7 +201,6 @@
     "site-lib/media/favicon.png",
     "site-lib/media/6155340132a851f6089e.svg",
     "site-lib/media/2308ab1944a6bfa5c5b8.svg",
-    "README.md",
     "README — копия.md",
     "Введение.md",
     "index — копия.md",
