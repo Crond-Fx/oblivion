@@ -150,7 +150,7 @@
     },
     "sidebarOptions": {
       "featureId": "sidebar",
-      "enabled": false,
+      "enabled": true,
       "unavailable": false,
       "alwaysEnabled": false,
       "hideSettingsButton": false,
