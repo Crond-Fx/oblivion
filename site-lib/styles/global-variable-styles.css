@@ -1,22 +1,24 @@
 :root body {
-    --line-width: min(40em, calc(100vw - 2em));
-    --line-width-adaptive: min(40em, calc(100vw - 2em));
-    --file-line-width: min(40em, calc(100vw - 2em));
-    --sidebar-width-right: min(20em, 80vw);
-    --sidebar-width-left: min(20em, 80vw)
+	--line-width: min(40em, calc(100vw - 2em));
+	--line-width-adaptive: min(40em, calc(100vw - 2em));
+	--file-line-width: min(40em, calc(100vw - 2em));
+	--sidebar-width-right: min(20em, 80vw);
+	--sidebar-width-left: min(20em, 80vw)
 }
 
 body {
-    --zoom-factor: 1 !important;
-    --font-text-size: 16px !important;
-    --indent-size: 4
+	--zoom-factor: 1 !important;
+	--font-text-size: 16px !important;
+	--indent-size: 4
 }
 
-#center-content > .obsidian-document {
+#center-content>.obsidian-document {
 	padding-top: 72px;
+	padding-right: 2em;
 }
 
-#left-sidebar, #right-sidebar {
+#left-sidebar,
+#right-sidebar {
 	z-index: 11;
 }
 
@@ -39,10 +41,10 @@ body {
 	width: 50% !important;
 	height: 64px !important;
 	margin-inline: 0;
-	
+
 	display: flex;
 	flex-direction: row;
-	
+
 	border-radius: 0;
 	padding: 20px !important;
 }
@@ -60,7 +62,7 @@ body {
 	left: 0;
 	justify-content: flex-start;
 	transform: translateZ(0);
-	
+
 }
 
 
