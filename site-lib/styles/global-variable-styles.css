@@ -14,7 +14,7 @@ body {
 
 #center-content>.obsidian-document {
 	padding-top: 72px;
-	padding-right: 2em;
+	padding-right: 2em !important;
 }
 
 #left-sidebar,
