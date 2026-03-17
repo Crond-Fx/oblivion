@@ -103,7 +103,7 @@ function waitForScrollEndThenOffset() {
         if (currentScrollY === lastScrollY) {
             clearInterval(scrollCheck);
             clearTimeout(timeout);
-            window.scrollBy(0, -80);
+            window.scrollBy(0, -180);
             console.log('✅ [Фикс] Анимация скролла завершена. Отступ применен.');
         } else {
             lastScrollY = currentScrollY;
