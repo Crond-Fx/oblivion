@@ -31,88 +31,96 @@ function initMyZoom() {
 // фиксы для плагина HTML Export
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Ждем, пока плагин Obsidian полностью загрузится в память браузера
-  const waitForSite = setInterval(() => {
-    if (window.ObsidianSite && window.WebpageDocument) {
-      clearInterval(waitForSite);
-      applyFixes();
+  // ==========================================
+  // ФИКС 1: Жесткий скролл к якорям
+  // ==========================================
+  const patchScroll = setInterval(() => {
+    // Ждем пока загрузится класс документа плагина
+    if (window.WebpageDocument && window.WebpageDocument.prototype.scrollToHeader) {
+      clearInterval(patchScroll);
+      
+      // Сохраняем оригинальную функцию
+      const originalScrollToHeader = window.WebpageDocument.prototype.scrollToHeader;
+      
+      // Подменяем на нашу
+      window.WebpageDocument.prototype.scrollToHeader = function(hash) {
+        if (!hash) return;
+        
+        // Очищаем от спецсимволов и заменяем подчеркивания на пробелы
+        const decodedHash = decodeURIComponent(hash);
+        const headingText = decodedHash.replace(/_/g, ' '); 
+
+        let attempts = 0;
+        
+        const tryScroll = () => {
+          attempts++;
+          
+          // 1. Сначала ищем по ID (с учетом суффикса _0)
+          let target = document.getElementById(hash + '_0') ||
+                       document.getElementById(decodedHash + '_0') ||
+                       document.getElementById(hash) ||
+                       document.getElementById(decodedHash);
+
+          // 2. Если не нашли — ищем по атрибуту data-heading (самый надежный вариант для Obsidian)
+          if (!target) {
+            const headings = Array.from(document.querySelectorAll('[data-heading]'));
+            target = headings.find(el => {
+              const data = el.getAttribute('data-heading');
+              return data === headingText || data === decodedHash || data === hash;
+            });
+          }
+
+          if (target) {
+            console.log(`✅[Фикс] Якорь найден (попытка ${attempts})`);
+            // Скроллим с поправкой в -80px, чтобы заголовок не прилипал к верху экрана
+            const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
+            window.scrollTo({ top: topOffset, behavior: 'smooth' });
+          } else if (attempts < 20) {
+            // Контент еще не отрендерился, ждем 100мс и пробуем снова (максимум 2 секунды)
+            setTimeout(tryScroll, 100);
+          } else {
+            console.warn(`❌ [Фикс] Якорь "${hash}" не появился на странице.`);
+            originalScrollToHeader.call(this, hash); // Отдаем обратно плагину
+          }
+        };
+        
+        // Запускаем цикл поиска
+        tryScroll();
+      };
     }
   }, 50);
 
-  function applyFixes() {
-    
-    // ==========================================
-    // ФИКС 1: Раскрытие древовидного меню
-    // ==========================================
-    let treeExpanded = false;
-
-    const expandTree = () => {
-      // Раскрываем только один раз при старте, чтобы не бесить пользователя, 
-      // если он потом решит свернуть какую-то папку вручную.
-      if (treeExpanded) return; 
+  // ==========================================
+  // ФИКС 2: Принудительное раскрытие дерева папок
+  // ==========================================
+  const expandTree = setInterval(() => {
+    // Ждем, пока плагин полностью загрузит сайт и построит меню (#file-explorer)
+    if (window.ObsidianSite && window.ObsidianSite.isLoaded && window.ObsidianSite.fileTree) {
+      clearInterval(expandTree); // Останавливаем таймер
       
       const tree = window.ObsidianSite.fileTree;
-      if (tree) {
-        tree.collapsedRecursive = false;
-        // Используем встроенный в плагин метод обхода всех папок
-        tree.forAllChildren(node => { 
-          node.collapsed = false; 
-        });
-        treeExpanded = true;
-      }
-    };
-
-    // Пробуем раскрыть сразу
-    if (window.ObsidianSite.isLoaded) expandTree();
-    // И вешаем на хук загрузки страницы (на случай, если плагин тупит)
-    window.ObsidianSite.onDocumentLoad(() => {
-      setTimeout(expandTree, 100);
-    });
-
-
-    // ==========================================
-    // ФИКС 2: Логика перехода по якорям
-    // ==========================================
-    
-    // Сохраняем оригинальную "поломанную" функцию плагина на всякий случай
-    const originalScrollToHeader = window.WebpageDocument.prototype.scrollToHeader;
-    
-    // Подменяем её на нашу умную версию
-    window.WebpageDocument.prototype.scrollToHeader = function(hash) {
-      if (!hash) return;
       
-      // Раскодируем кириллицу (например, %D0%92%D0%B2 становится "Введение")
-      const decodedHash = decodeURIComponent(hash);
+      // Просим плагин штатно раскрыть узлы (меняет внутренние переменные плагина)
+      tree.collapsedRecursive = false;
+
+      // Грубая физическая сила: насильно удаляем классы "свернутости", 
+      // потому что встроенные анимации плагина часто игнорируют команды
+      const collapsedItems = document.querySelectorAll('#file-explorer .tree-item.is-collapsed');
       
-      // Превращаем подчеркивания обратно в пробелы для поиска по data-heading
-      // "Характеристики_и_ресурсы" -> "Характеристики и ресурсы"
-      const headingText = decodedHash.replace(/_/g, ' ');
+      collapsedItems.forEach(el => {
+        el.classList.remove('is-collapsed');
+        const children = el.querySelector('.tree-item-children');
+        if (children) {
+          children.style.display = 'block';
+          children.style.height = 'auto';
+          children.style.overflow = 'visible';
+        }
+      });
 
-      // Ищем цель в порядке убывания надежности:
-      const target = 
-        // 1. По точному совпадению с суффиксом _0 (самый частый кейс)
-        document.getElementById(hash + '_0') ||
-        document.getElementById(decodedHash + '_0') ||
-        // 2. По атрибуту data-heading (убивает проблему с пробелами/подчеркиваниями)
-        document.querySelector(`[data-heading="${headingText}"]`) ||
-        document.querySelector(`[data-heading="${decodedHash}"]`) ||
-        // 3. Стандартный поиск, если вдруг плагин перестал добавлять _0
-        document.getElementById(hash) ||
-        document.getElementById(decodedHash);
+      console.log('✅ [Фикс] Дерево папок успешно раскрыто');
+    }
+  }, 200);
 
-      if (target) {
-        // Вычисляем отступ от верха. -80px не даст заголовку прилипнуть 
-        // прямо к верхнему краю экрана (визуально красивее)
-        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top: topOffset, behavior: 'smooth' });
-      } else {
-        // Если вообще ничего не нашли, отдаем управление родной функции плагина
-        console.warn(`[Fix Script] Якорь "${hash}" не найден, использую стандартный скролл.`);
-        originalScrollToHeader.call(this, hash);
-      }
-    };
-
-  }
 });
 
 </script>
