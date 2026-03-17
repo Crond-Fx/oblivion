@@ -78,14 +78,18 @@ function fixAnchorScroll() {
 
       if (target) {
         // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
-        // Используем более надежный метод scrollIntoView(), который обходит блокировки плагина.
-        // Опция 'block: "start"' подгонит элемент к верху экрана.
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        
-        // Дополнительно отступаем 80px сверху, чтобы заголовок не прилипал к шапке
-        setTimeout(() => { window.scrollBy(0, -80); }, 10);
+        // 1. Вычисляем точную позицию элемента от верха всей страницы.
+        const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+        // 2. Вычитаем наш отступ в 80px, чтобы получить идеальную финальную точку.
+        const offsetPosition = elementPosition - 80;
 
-        console.log(`✅ [Фикс] Якорь "${hash}" найден! Выполняю scrollIntoView()`);
+        // 3. Выполняем ОДНУ плавную прокрутку до вычисленной точки.
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+
+        console.log(`✅ [Фикс] Якорь "${hash}" найден! Прокручиваю к ${offsetPosition}px.`);
 
       } else if (attempts < maxAttempts) {
         setTimeout(tryScroll, 100);
@@ -97,7 +101,7 @@ function fixAnchorScroll() {
     tryScroll();
   };
   
-  console.log('✅ [Фикс] Механизм скролла успешно заменен на scrollIntoView().');
+  console.log('✅ [Фикс] Механизм скролла успешно заменен на вычисление точной позиции.');
 }
 
 
