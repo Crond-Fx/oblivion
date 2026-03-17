@@ -29,89 +29,96 @@ function initMyZoom() {
 // фиксы для плагина HTML Export
 
 // ==========================================
-// Скрипт-разведчик для Obsidian Export
-// Он ничего не чинит, только пишет в консоль.
+// СКРИПТ ФИКСОВ для Obsidian Export
 // ==========================================
 
-console.log('✅ [Диагност] Скрипт-разведчик запущен.');
-
-// Флаги, чтобы не спамить в консоль
-let domContentLoadedFired = false;
-let windowLoadFired = false;
-let obsidianSiteFound = false;
-let webpageDocFound = false;
-let fileTreeFound = false;
-let isLoadedFlagFound = false;
-let scrollPatchPossible = false;
-
-// Сообщаем, когда сработал DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('✅ [ДиАГНОСТ] Событие DOMContentLoaded сработало. HTML-структура готова.');
-  domContentLoadedFired = true;
-});
-
-// Сообщаем, когда сработало window.load (самое последнее событие)
-window.addEventListener('load', () => {
-  console.log('✅ [Диагност] Событие window.load сработало. Страница и все ресурсы (картинки, стили) загружены.');
-  windowLoadFired = true;
-});
-
-
-// Главный шпион, который докладывает обстановку каждые 200 миллисекунд
-let attempts = 0;
-const inspector = setInterval(() => {
-  attempts++;
-  console.log(`\n--- [Диагност] Попытка #${attempts} ---`);
-
-  // --- Проверка 1: Глобальный объект ObsidianSite ---
-  if (window.ObsidianSite && !obsidianSiteFound) {
-    console.log('✅ [Диагност] Объект window.ObsidianSite ОБНАРУЖЕН!');
-    obsidianSiteFound = true;
-  } else if (!window.ObsidianSite) {
-    console.log('❌ [Диагност] window.ObsidianSite всё ещё не существует.');
-  }
-
-  // --- Проверка 2: Глобальный объект WebpageDocument ---
-  if (window.WebpageDocument && !webpageDocFound) {
-    console.log('✅ [Диагност] Объект window.WebpageDocument ОБНАРУЖЕН!');
-    webpageDocFound = true;
-  } else if (!window.WebpageDocument) {
-    console.log('❌ [Диагност] window.WebpageDocument всё ещё не существует.');
-  }
-
-  // --- Проверка 3: Состояние самого плагина ---
-  if (obsidianSiteFound) {
-    if (window.ObsidianSite.isLoaded && !isLoadedFlagFound) {
-      console.log('✅ [Диагност] Флаг window.ObsidianSite.isLoaded стал TRUE. Плагин считает, что он полностью загрузился.');
-      isLoadedFlagFound = true;
-    } else {
-      console.log(`ℹ️ [Диагност] Состояние флага isLoaded: ${window.ObsidianSite.isLoaded}`);
-    }
+// Запускаем "наблюдателя", который будет проверять готовность плагина
+const pluginWatcher = setInterval(() => {
+  
+  // Ждем ключевого момента: когда плагин сам скажет, что он полностью загрузился.
+  if (window.ObsidianSite && window.ObsidianSite.isLoaded) {
     
-    if (window.ObsidianSite.fileTree && !fileTreeFound) {
-      console.log('✅ [Диагност] Дерево папок window.ObsidianSite.fileTree ОБНАРУЖЕНО!');
-      fileTreeFound = true;
-    } else if (!window.ObsidianSite.fileTree) {
-      console.log('❌ [Диагност] Дерево папок fileTree всё ещё не создано.');
-    }
+    // Как только плагин готов — останавливаем наблюдателя, чтобы не тратить ресурсы
+    clearInterval(pluginWatcher);
+    console.log('✅ [Фикс] Плагин Obsidian Export полностью готов. Применяем исправления!');
+    
+    // Запускаем наши функции-фиксы
+    fixAnchorScroll();
+    expandFileTree();
   }
   
-  // --- Проверка 4: Возможность починить скролл ---
-  if (webpageDocFound) {
-    if (typeof window.WebpageDocument.prototype.scrollToHeader === 'function' && !scrollPatchPossible) {
-      console.log('✅ [Диагност] Функция scrollToHeader НАЙДЕНА. Скролл можно починить!');
-      scrollPatchPossible = true;
-    } else if (typeof window.WebpageDocument.prototype.scrollToHeader !== 'function') {
-        console.log('❌ [Диагност] Функция scrollToHeader НЕ найдена или НЕ является функцией. Починка скролла невозможна.');
-    }
+}, 250); // Проверяем готовность 4 раза в секунду
+
+
+/**
+ * ФИКС 1: Исправляет переход по якорным ссылкам (#)
+ */
+function fixAnchorScroll() {
+  // Проверяем, что функция, которую мы хотим починить, существует
+  if (!window.WebpageDocument || typeof window.WebpageDocument.prototype.scrollToHeader !== 'function') {
+    console.error('❌ [Фикс] Не удалось найти функцию scrollToHeader. Починка скролла невозможна.');
+    return;
+  }
+  
+  // Подменяем оригинальную функцию плагина на нашу, исправленную
+  window.WebpageDocument.prototype.scrollToHeader = function(hash) {
+    if (!hash) return;
+
+    let attempts = 0;
+    const maxAttempts = 30; // Ждем максимум 3 секунды
+
+    const tryScroll = () => {
+      attempts++;
+      
+      const decodedHash = decodeURIComponent(hash);
+      const headingText = decodedHash.replace(/_/g, ' ');
+
+      const target = 
+        document.getElementById(hash + '_0') ||
+        document.getElementById(decodedHash + '_0') ||
+        document.querySelector(`[data-heading="${headingText}"]`) ||
+        document.querySelector(`[data-heading="${decodedHash}"]`);
+
+      if (target) {
+        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+        console.log(`✅ [Фикс] Якорь "${hash}" найден и прокручен!`);
+      } else if (attempts < maxAttempts) {
+        // Если якорь еще не появился на странице, пробуем еще раз через 100мс
+        setTimeout(tryScroll, 100);
+      } else {
+        console.warn(`❌ [Фикс] Якорь "${hash}" так и не был найден на странице.`);
+      }
+    };
+    
+    tryScroll();
+  };
+  
+  console.log('✅ [Фикс] Механизм скролла успешно исправлен («запатчен»).');
+}
+
+
+/**
+ * ФИКС 2: Принудительно раскрывает древовидное меню файлов
+ */
+function expandFileTree() {
+  const tree = window.ObsidianSite.fileTree;
+  
+  if (!tree) {
+    console.error('❌ [Фикс] Дерево файлов (fileTree) не найдено. Раскрыть меню не удалось.');
+    return;
   }
 
-  // Останавливаем шпиона через 10 секунд
-  if (attempts > 50) {
-    clearInterval(inspector);
-    console.log('\n🛑 [Диагност] Сбор данных завершен (прошло 10 секунд).');
-  }
-}, 200);
+  // Используем встроенный метод плагина, чтобы обойти все папки
+  tree.forAllChildren(node => {
+    // Для каждой папки (node) выставляем флаг "не свернута"
+    if(node.collapsable) {
+      node.collapsed = false;
+    }
+  });
+
+  console.log('✅ [Фикс] Команда на раскрытие всех папок в меню отправлена.');
+}
 
 </script>
 
