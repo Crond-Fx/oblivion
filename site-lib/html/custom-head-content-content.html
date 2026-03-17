@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" defer></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"
+	defer></script>
 
 <script>
-	setTimeout(() => {
-		mediumZoom(document.querySelectorAll('.image-embed.is-loaded img'))
-	}, 3000);
+setInterval(() => {
+	mediumZoom(document.querySelectorAll('.image-embed.is-loaded img'))
+}, 1000);
 </script>
 
 <style>
