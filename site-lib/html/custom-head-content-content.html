@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<script	src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" onload="initMyZoom()"></script>
+
+<script
+	src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"
+	onload="initMyZoom()">
+</script>
+
 
 <script>
+
+// Лайтбокс для картинок (medium-zoom)
 function initMyZoom() {
   console.log('✅ Скрипт полностью загружен, запускаем mediumZoom...');
 
@@ -20,7 +27,95 @@ function initMyZoom() {
     });
   }
 }
+
+// фиксы для плагина HTML Export
+document.addEventListener('DOMContentLoaded', () => {
+
+  // --- ФИКС 1: Раскрываем древовидное меню ---
+  // Так как основной скрипт грузится асинхронно, запускаем "Ждуна"
+  const waitForSite = setInterval(() => {
+    // Ждем, пока ObsidianSite полностью инициализируется
+    if (window.ObsidianSite && window.ObsidianSite.isLoaded !== undefined) {
+      clearInterval(waitForSite);
+
+      // Раскрываем меню при первом запуске
+      if (window.ObsidianSite.fileTree) {
+        window.ObsidianSite.fileTree.collapsedRecursive = false;
+      }
+
+      // Регистрируем хук: повторять раскрытие и проверять якори каждый раз, 
+      // когда плагин подгружает новую страницу (без перезагрузки браузера)
+      window.ObsidianSite.onDocumentLoad((doc) => {
+        // Убеждаемся, что дерево не свернулось обратно
+        if (window.ObsidianSite.fileTree) {
+          window.ObsidianSite.fileTree.collapsedRecursive = false;
+        }
+
+        // --- ФИКС 2.1: Переход по якорю при подгрузке НОВОЙ страницы ---
+        // doc.hash — это то, что идет после '#' в URL
+        const hash = doc.hash || window.location.hash.substring(1);
+        if (hash) scrollToHash(hash);
+      });
+    }
+  }, 50);
+
+  // --- ФИКС 2.2: Переход по якорю в пределах ТЕКУЩЕЙ страницы ---
+  // Перехватываем клики по ссылкам, чтобы исправить логику плагина
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    const href = link.getAttribute('href') || '';
+    if (href.includes('#')) {
+      const hash = href.split('#')[1];
+      // Плагин предотвращает стандартный скролл и пытается крутить сам.
+      // Мы даем ему 50 миллисекунд на его провальную попытку, а затем
+      // берем дело в свои руки и крутим к нужному блоку.
+      setTimeout(() => {
+        scrollToHash(hash);
+      }, 50);
+    }
+  });
+
+  // Универсальная функция жесткого поиска элемента и скролла к нему
+  function scrollToHash(hash) {
+    if (!hash) return;
+    
+    // Obsidian часто кодирует пробелы и кириллицу (например %20)
+    const decodedHash = decodeURIComponent(hash);
+
+    const findAndScroll = () => {
+      // Ищем везде: по ID, по декодированному ID, и на всякий случай по атрибуту name
+      const target = document.getElementById(hash) 
+                  || document.getElementById(decodedHash)
+                  || document.querySelector(`[name="${hash}"]`)
+                  || document.querySelector(`[name="${decodedHash}"]`);
+      
+      if (target) {
+        // Вычисляем позицию. -80px нужно, чтобы заголовок не прилипал
+        // к самому верху окна (особенно полезно, если есть плавающая шапка)
+        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+        return true;
+      }
+      return false;
+    };
+
+    // Так как контент страницы может подтягиваться плагином асинхронно,
+    // элемент может появиться не сразу. Делаем 20 попыток с шагом 100мс (2 секунды)
+    let attempts = 0;
+    const retryInterval = setInterval(() => {
+      attempts++;
+      if (findAndScroll() || attempts > 20) {
+        clearInterval(retryInterval);
+      }
+    }, 100);
+  }
+
+});
+
 </script>
+
 
 <style>
     #center-content > .obsidian-document {
