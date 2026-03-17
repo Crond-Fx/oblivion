@@ -31,18 +31,14 @@ function initMyZoom() {
 // ФИНАЛЬНЫЙ СКРИПТ ФИКСОВ для Obsidian Export
 // ==========================================
 
-// Запускаем "наблюдателя", который будет проверять готовность плагина
 const pluginWatcher = setInterval(() => {
-  
   if (window.ObsidianSite && window.ObsidianSite.isLoaded) {
     clearInterval(pluginWatcher);
     console.log('✅ [Фикс] Плагин Obsidian Export полностью готов. Применяем исправления!');
     fixAnchorScroll();
     expandFileTree();
   }
-  
 }, 250);
-
 
 /**
  * ФИКС 1: Исправляет переход по якорным ссылкам (#)
@@ -73,16 +69,12 @@ function fixAnchorScroll() {
 
       if (target) {
         // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
-        // 1. Запускаем плавную прокрутку до элемента.
+        // Запускаем плавную прокрутку до элемента.
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        // 2. Ждем 450 миллисекунд, чтобы анимация скролла ЗАВЕРШИЛАСЬ.
-        setTimeout(() => {
-          // 3. Делаем мгновенный отступ, когда страница уже не движется.
-          window.scrollBy(0, -80);
-        }, 450); // Этой задержки должно хватить для завершения анимации
-
-        console.log(`✅ [Фикс] Якорь "${hash}" найден! Запускаю скролл с отложенным отступом.`);
+        console.log(`✅ [Фикс] Якорь "${hash}" найден! Запускаю скролл и жду его завершения...`);
+        
+        // Запускаем детектор, который будет следить за окончанием анимации
+        waitForScrollEndThenOffset();
 
       } else if (attempts < maxAttempts) {
         setTimeout(tryScroll, 100);
@@ -94,7 +86,34 @@ function fixAnchorScroll() {
     tryScroll();
   };
   
-  console.log('✅ [Фикс] Механизм скролла заменен на scrollIntoView с задержкой для отступа.');
+  console.log('✅ [Фикс] Механизм скролла заменен на детектор остановки.');
+}
+
+/**
+ * Эта функция ждет, пока плавная прокрутка не закончится, и только потом применяет отступ.
+ */
+function waitForScrollEndThenOffset() {
+    let lastScrollY = window.pageYOffset;
+    let timeout = null;
+
+    const scrollCheck = setInterval(() => {
+        const currentScrollY = window.pageYOffset;
+
+        // Если позиция перестала меняться, значит, скролл завершился
+        if (currentScrollY === lastScrollY) {
+            clearInterval(scrollCheck);
+            clearTimeout(timeout);
+            window.scrollBy(0, -80);
+            console.log('✅ [Фикс] Анимация скролла завершена. Отступ применен.');
+        } else {
+            lastScrollY = currentScrollY;
+        }
+    }, 100); // Проверяем каждые 100 мс
+
+    // Аварийный остановщик, если что-то пойдет не так (например, пользователь сам начнет скроллить)
+    timeout = setTimeout(() => {
+        clearInterval(scrollCheck);
+    }, 2000); // Максимум ждем 2 секунды
 }
 
 
