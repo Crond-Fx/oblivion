@@ -4,9 +4,23 @@
 	defer></script>
 
 <script>
-setTimeout(() => {
-	mediumZoom(document.querySelectorAll('.image-embed.is-loaded img'));
-}, 2000);
+// Объявление функции с параметром задержки
+function lightbox(delay) {
+    const timeout = parseInt(delay) || 0;
+    setTimeout(() => {
+        const images = document.querySelectorAll('.image-embed.is-loaded img');
+        if (images.length > 0) {
+            mediumZoom(images);
+        }
+    }, timeout);
+}
+
+// Привязка выполнения функции к клику по внутренним ссылкам
+document.querySelectorAll('a.internal-link').forEach(link => {
+    link.addEventListener('click', () => {
+        lightbox('1600');
+    });
+});
 </script>
 
 <style>
@@ -62,18 +76,18 @@ setTimeout(() => {
 	backdrop-filter: blur(6px);
 }
 
-#right-sidebar.sidebar-topbar {
+#right-sidebar .sidebar-topbar {
 	background-repeat: no-repeat;
 	background-size: 32px;
 	background-position: center;
 }
 
-.theme-dark #right-sidebar.sidebar-topbar {
+.theme-dark #right-sidebar .sidebar-topbar {
 	background-color: rgba(16, 16, 16, 0.92);
 	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-dark.png);
 }
 
-.theme-light #right-sidebar.sidebar-topbar {
+.theme-light #right-sidebar .sidebar-topbar {
 	background-color: rgba(240, 240, 240, 0.92);
 	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-light.png);
 }
