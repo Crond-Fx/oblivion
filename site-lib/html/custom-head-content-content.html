@@ -50,20 +50,6 @@ setInterval(() => {
 	
 	border-radius: 0;
 	padding: 14px !important;
-	
-	background-repeat: no-repeat;
-	background-size: 32px;
-	background-position-y: 16px;
-}
-
-.theme-dark .sidebar.is-collapsed .sidebar-collapse-icon {
-	background-color: rgba(16, 16, 16, 0.92);
-	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-dark.png);
-}
-
-.theme-light .sidebar.is-collapsed .sidebar-collapse-icon {
-	background-color: rgba(240, 240, 240, 0.92);
-	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-light.png);
 }
 
 .theme-dark .medium-zoom-overlay{
@@ -76,13 +62,27 @@ setInterval(() => {
 	backdrop-filter: blur(6px);
 }
 
+#right-sidebar.sidebar-topbar {
+	background-repeat: no-repeat;
+	background-size: 32px;
+	background-position: center;
+}
+
+.theme-dark #right-sidebar.sidebar-topbar {
+	background-color: rgba(16, 16, 16, 0.92);
+	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-dark.png);
+}
+
+.theme-light #right-sidebar.sidebar-topbar {
+	background-color: rgba(240, 240, 240, 0.92);
+	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-light.png);
+}
+
 #left-sidebar.sidebar.is-collapsed .sidebar-collapse-icon {
 	left: 0;
 	justify-content: flex-start;
-	transform: translateZ(0);
 	width: 50% !important;
 	background-color: transparent;
-	background-position-x: 8%;
 }
 
 #right-sidebar.sidebar.is-collapsed .sidebar-collapse-icon {
@@ -91,7 +91,23 @@ setInterval(() => {
 	justify-content: flex-end;
 	transform: translateZ(0);
 	width: 100% !important;
-	background-position-x: 96%;
+		
+	background-repeat: no-repeat;
+	background-size: 32px;
+	background-position-x: 4%;
+	background-position-y: 16px;
+
 	backdrop-filter: blur(4px);
 }
+
+.theme-dark #right-sidebar.sidebar.is-collapsed .sidebar-collapse-icon {
+	background-color: rgba(16, 16, 16, 0.92);
+	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-dark.png);
+}
+
+.theme-light #right-sidebar.sidebar.is-collapsed .sidebar-collapse-icon {
+	background-color: rgba(240, 240, 240, 0.92);
+	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-light.png);
+}
+
 </style>
