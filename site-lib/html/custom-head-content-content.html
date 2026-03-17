@@ -26,7 +26,6 @@ function initMyZoom() {
   }
 }
 
-// фиксы для плагина HTML Export
 
 // ==========================================
 // СКРИПТ ФИКСОВ для Obsidian Export
@@ -38,7 +37,7 @@ const pluginWatcher = setInterval(() => {
   // Ждем ключевого момента: когда плагин сам скажет, что он полностью загрузился.
   if (window.ObsidianSite && window.ObsidianSite.isLoaded) {
     
-    // Как только плагин готов — останавливаем наблюдателя, чтобы не тратить ресурсы
+    // Как только плагин готов — останавливаем наблюдателя
     clearInterval(pluginWatcher);
     console.log('✅ [Фикс] Плагин Obsidian Export полностью готов. Применяем исправления!');
     
@@ -47,25 +46,23 @@ const pluginWatcher = setInterval(() => {
     expandFileTree();
   }
   
-}, 250); // Проверяем готовность 4 раза в секунду
+}, 250);
 
 
 /**
  * ФИКС 1: Исправляет переход по якорным ссылкам (#)
  */
 function fixAnchorScroll() {
-  // Проверяем, что функция, которую мы хотим починить, существует
   if (!window.WebpageDocument || typeof window.WebpageDocument.prototype.scrollToHeader !== 'function') {
     console.error('❌ [Фикс] Не удалось найти функцию scrollToHeader. Починка скролла невозможна.');
     return;
   }
   
-  // Подменяем оригинальную функцию плагина на нашу, исправленную
   window.WebpageDocument.prototype.scrollToHeader = function(hash) {
     if (!hash) return;
 
     let attempts = 0;
-    const maxAttempts = 30; // Ждем максимум 3 секунды
+    const maxAttempts = 30;
 
     const tryScroll = () => {
       attempts++;
@@ -80,11 +77,17 @@ function fixAnchorScroll() {
         document.querySelector(`[data-heading="${decodedHash}"]`);
 
       if (target) {
-        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top: topOffset, behavior: 'smooth' });
-        console.log(`✅ [Фикс] Якорь "${hash}" найден и прокручен!`);
+        // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+        // Используем более надежный метод scrollIntoView(), который обходит блокировки плагина.
+        // Опция 'block: "start"' подгонит элемент к верху экрана.
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Дополнительно отступаем 80px сверху, чтобы заголовок не прилипал к шапке
+        setTimeout(() => { window.scrollBy(0, -80); }, 10);
+
+        console.log(`✅ [Фикс] Якорь "${hash}" найден! Выполняю scrollIntoView()`);
+
       } else if (attempts < maxAttempts) {
-        // Если якорь еще не появился на странице, пробуем еще раз через 100мс
         setTimeout(tryScroll, 100);
       } else {
         console.warn(`❌ [Фикс] Якорь "${hash}" так и не был найден на странице.`);
@@ -94,7 +97,7 @@ function fixAnchorScroll() {
     tryScroll();
   };
   
-  console.log('✅ [Фикс] Механизм скролла успешно исправлен («запатчен»).');
+  console.log('✅ [Фикс] Механизм скролла успешно заменен на scrollIntoView().');
 }
 
 
@@ -109,9 +112,7 @@ function expandFileTree() {
     return;
   }
 
-  // Используем встроенный метод плагина, чтобы обойти все папки
   tree.forAllChildren(node => {
-    // Для каждой папки (node) выставляем флаг "не свернута"
     if(node.collapsable) {
       node.collapsed = false;
     }
