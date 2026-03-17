@@ -5,7 +5,6 @@
 	onload="initMyZoom()">
 </script>
 
-
 <script>
 
 // Лайтбокс для картинок (medium-zoom)
@@ -102,10 +101,16 @@ function expandFileTree() {
 
 </script>
 
-
 <style>
+
+@media (max-width: 1080px) {
+	h1, h2, h3, h4, h5, h6 {
+		scroll-margin-top: 3em;
+	}
+}
+
 h1, h2, h3, h4, h5, h6 {
-	scroll-margin-top: 3em;
+	scroll-margin-top: 0.5em;
 }
 
 #center-content > .obsidian-document {
