@@ -1,33 +1,16 @@
 <!DOCTYPE html>
-<script	src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script>
+<script	src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" onload="initMyZoom()"></script>
 
 <script>
-// Оборачиваем всю логику в отдельную функцию
 function initMyZoom() {
-  // Проверяем, существует ли плагин
-  if (typeof mediumZoom === 'undefined') {
-    console.error('❌ ОШИБКА: Функция mediumZoom всё ещё не существует! Проверьте порядок подключения скриптов.');
-    return;
-  }
+  console.log('✅ Скрипт полностью загружен, запускаем mediumZoom...');
 
-  console.log('✅ Плагин mediumZoom найден, начинаем работу...');
-
-  // Инициализируем плагин. 
-  // Используем window.myZoom вместо const, чтобы вывели переменную в глобальную область
-  // Теперь она БУДЕТ доступна в консоли браузера!
   window.myZoom = mediumZoom('.image-embed.is-loaded img');
 
-  console.log('🖼 При старте плагин нашел картинок:', window.myZoom.getImages().length);
-
-  // Создаем наблюдателя
   const observer = new MutationObserver(() => {
     window.myZoom.attach('.image-embed.is-loaded img');
-    
-    const count = window.myZoom.getImages().length;
-    console.log('🔄 DOM обновился. Всего картинок в зуме:', count);
   });
 
-  // Запускаем наблюдателя
   if (document.body) {
     observer.observe(document.body, { 
       childList: true, 
@@ -35,22 +18,7 @@ function initMyZoom() {
       attributes: true, 
       attributeFilter: ['class'] 
     });
-    console.log('👀 Наблюдатель (MutationObserver) успешно запущен!');
-  } else {
-    console.error('❌ ОШИБКА: document.body не найден!');
   }
-}
-
-// УМНЫЙ ЗАПУСК:
-// Проверяем, загрузился ли уже HTML-документ.
-if (document.readyState === 'loading') {
-  // Если ещё грузится — ждём
-  document.addEventListener('DOMContentLoaded', initMyZoom);
-  console.log('⏳ Ждем загрузки DOM...');
-} else {
-  // Если уже загрузился (например, скрипт был вызван с defer) — запускаем немедленно
-  console.log('⚡ DOM уже загружен, запускаем сразу...');
-  initMyZoom();
 }
 </script>
 
