@@ -61,20 +61,18 @@ function initMyZoom() {
 	
 	border-radius: 0;
 	padding: 14px !important;
-	
-	background-repeat: no-repeat;
-	background-size: 32px;
-	background-position-y: 16px;
 }
 
 .theme-dark .sidebar.is-collapsed .sidebar-collapse-icon {
-	background-color: rgba(16, 16, 16, 0.92);
-	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-dark.png);
+background: url(https://crond-fx.github.io/oblivion/files/menu-dark.png)     4% 16px / 32px no-repeat, 
+			url(https://crond-fx.github.io/oblivion/files/sidebar-dark.png) 96% 16px / 32px no-repeat 
+			rgba(16, 16, 16, 0.92);
 }
 
 .theme-light .sidebar.is-collapsed .sidebar-collapse-icon {
-	background-color: rgba(240, 240, 240, 0.92);
-	background-image: url(https://crond-fx.github.io/oblivion/files/sidebar-light.png);
+background: url(https://crond-fx.github.io/oblivion/files/menu-light.png)     4% 16px / 32px no-repeat, 
+			url(https://crond-fx.github.io/oblivion/files/sidebar-light.png) 96% 16px / 32px no-repeat 
+			rgba(240, 240, 240, 0.92);
 }
 
 #left-sidebar.sidebar.is-collapsed .sidebar-collapse-icon {
@@ -83,7 +81,6 @@ function initMyZoom() {
 	transform: translateZ(0);
 	width: 50% !important;
 	background-color: transparent;
-	background-position-x: 8%;
 }
 
 #right-sidebar.sidebar.is-collapsed .sidebar-collapse-icon {
@@ -92,7 +89,6 @@ function initMyZoom() {
 	justify-content: flex-end;
 	transform: translateZ(0);
 	width: 100% !important;
-	background-position-x: 96%;
 	backdrop-filter: blur(4px);
 }
 
