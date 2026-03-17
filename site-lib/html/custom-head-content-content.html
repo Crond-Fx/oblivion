@@ -1,16 +1,30 @@
 <!DOCTYPE html>
-<script
-	src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"
-	defer></script>
+<script	src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script>
 
 <script>
-// 1. Создаем ОДИН глобальный экземпляр плагина без картинок (или с начальными)
-const myZoom = mediumZoom();
+document.addEventListener('DOMContentLoaded', () => {
+  // Проверяем, что плагин точно загрузился, чтобы избежать ошибок
+  if (typeof mediumZoom === 'undefined') {
+    console.error('Плагин mediumZoom не загрузился!');
+    return;
+  }
 
-// 2. Периодически ищем новые картинки и скармливаем их плагину
-setInterval(() => {
-  		myZoom.attach('.image-embed.is-loaded img');
-}, 1600);
+  // 1. Инициализируем стартовые картинки
+  const myZoom = mediumZoom('.image-embed.is-loaded img');
+
+  // 2. Создаем наблюдателя
+  const observer = new MutationObserver(() => {
+    myZoom.attach('.image-embed.is-loaded img');
+  });
+
+  // 3. Запускаем слежку
+  observer.observe(document.body, { 
+    childList: true, 
+    subtree: true, 
+    attributes: true, 
+    attributeFilter: ['class'] 
+  });
+});
 </script>
 
 <style>
