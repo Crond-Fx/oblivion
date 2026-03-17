@@ -4,26 +4,13 @@
 	defer></script>
 
 <script>
-// Объявление функции с параметром задержки
-function lightbox(delay) {
-    const timeout = parseInt(delay) || 0;
-    setTimeout(() => {
-        const images = document.querySelectorAll('.image-embed.is-loaded img');
-        if (images.length > 0) {
-            mediumZoom(images);
-        }
-    }, timeout);
-}
+// 1. Создаем ОДИН глобальный экземпляр плагина без картинок (или с начальными)
+const myZoom = mediumZoom();
 
-// Привязка выполнения функции к клику по внутренним ссылкам
-document.querySelectorAll('a.internal-link').forEach(link => {
-    link.addEventListener('click', () => {
-        lightbox('1600');
-    });
-});
-
-// Инициализация при загрузке страницы
-lightbox('1600');
+// 2. Периодически ищем новые картинки и скармливаем их плагину
+setInterval(() => {
+  		myZoom.attach('.image-embed.is-loaded img');
+}, 1600);
 </script>
 
 <style>
