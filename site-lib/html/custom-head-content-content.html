@@ -2,7 +2,9 @@
 <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" defer></script>
 
 <script>
-	mediumZoom(document.querySelectorAll('.image-embed.is-loaded img'))
+	setTimeout(() => {
+		mediumZoom(document.querySelectorAll('.image-embed.is-loaded img'))
+	}, 3000);
 </script>
 
 <style>
