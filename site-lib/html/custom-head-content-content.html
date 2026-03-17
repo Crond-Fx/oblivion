@@ -28,112 +28,97 @@ function initMyZoom() {
 
 
 // ==========================================
-// ФИНАЛЬНЫЙ СКРИПТ-ДИАГНОСТ для Obsidian Export
-// Цель: понять, почему не работает отступ -80px
+// СКРИПТ ФИКСОВ для Obsidian Export
 // ==========================================
 
+// Запускаем "наблюдателя", который будет проверять готовность плагина
 const pluginWatcher = setInterval(() => {
+  
+  // Ждем ключевого момента: когда плагин сам скажет, что он полностью загрузился.
   if (window.ObsidianSite && window.ObsidianSite.isLoaded) {
+    
+    // Как только плагин готов — останавливаем наблюдателя
     clearInterval(pluginWatcher);
-    console.log('✅ [Диагност] Плагин готов. Внедряю разведчика в функцию скролла...');
-    patchScrollForDiagnostics();
+    console.log('✅ [Фикс] Плагин Obsidian Export полностью готов. Применяем исправления!');
+    
+    // Запускаем наши функции-фиксы
+    fixAnchorScroll();
+    expandFileTree();
   }
+  
 }, 250);
 
-function patchScrollForDiagnostics() {
+
+/**
+ * ФИКС 1: Исправляет переход по якорным ссылкам (#)
+ */
+function fixAnchorScroll() {
   if (!window.WebpageDocument || typeof window.WebpageDocument.prototype.scrollToHeader !== 'function') {
+    console.error('❌ [Фикс] Не удалось найти функцию scrollToHeader. Починка скролла невозможна.');
     return;
   }
   
   window.WebpageDocument.prototype.scrollToHeader = function(hash) {
     if (!hash) return;
-    let target = null;
+
     let attempts = 0;
+    const maxAttempts = 30;
 
-    const findTargetInterval = setInterval(() => {
-        attempts++;
-        const decodedHash = decodeURIComponent(hash);
-        const headingText = decodedHash.replace(/_/g, ' ');
+    const tryScroll = () => {
+      attempts++;
+      
+      const decodedHash = decodeURIComponent(hash);
+      const headingText = decodedHash.replace(/_/g, ' ');
 
-        target = 
-            document.getElementById(hash + '_0') ||
-            document.getElementById(decodedHash + '_0') ||
-            document.querySelector(`[data-heading="${headingText}"]`) ||
-            document.querySelector(`[data-heading="${decodedHash}"]`);
+      const target = 
+        document.getElementById(hash + '_0') ||
+        document.getElementById(decodedHash + '_0') ||
+        document.querySelector(`[data-heading="${headingText}"]`) ||
+        document.querySelector(`[data-heading="${decodedHash}"]`);
 
-        if (target || attempts >= 30) {
-            clearInterval(findTargetInterval);
-            if (target) {
-                console.log(`✅ [Диагност] Якорь "${hash}" найден. Запускаю скролл и слежку.`);
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                waitForScrollEndThenDiagnoseOffset();
-            } else {
-                console.warn(`❌ [Диагност] Якорь "${hash}" не найден.`);
-            }
-        }
-    }, 100);
+      if (target) {
+        // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+        // Используем более надежный метод scrollIntoView(), который обходит блокировки плагина.
+        // Опция 'block: "start"' подгонит элемент к верху экрана.
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Дополнительно отступаем 80px сверху, чтобы заголовок не прилипал к шапке
+        setTimeout(() => { window.scrollBy(0, -80); }, 10);
+
+        console.log(`✅ [Фикс] Якорь "${hash}" найден! Выполняю scrollIntoView()`);
+
+      } else if (attempts < maxAttempts) {
+        setTimeout(tryScroll, 100);
+      } else {
+        console.warn(`❌ [Фикс] Якорь "${hash}" так и не был найден на странице.`);
+      }
+    };
+    
+    tryScroll();
   };
+  
+  console.log('✅ [Фикс] Механизм скролла успешно заменен на scrollIntoView().');
 }
 
 
-function waitForScrollEndThenDiagnoseOffset() {
-    console.log('ℹ️ [Диагност] Детектор запущен. Жду, когда страница перестанет двигаться...');
-    let lastScrollY = window.pageYOffset;
-    let timeout = null;
-    let stillScrolling = 0;
+/**
+ * ФИКС 2: Принудительно раскрывает древовидное меню файлов
+ */
+function expandFileTree() {
+  const tree = window.ObsidianSite.fileTree;
+  
+  if (!tree) {
+    console.error('❌ [Фикс] Дерево файлов (fileTree) не найдено. Раскрыть меню не удалось.');
+    return;
+  }
 
-    const scrollCheck = setInterval(() => {
-        const currentScrollY = window.pageYOffset;
+  tree.forAllChildren(node => {
+    if(node.collapsable) {
+      node.collapsed = false;
+    }
+  });
 
-        if (currentScrollY === lastScrollY) {
-            stillScrolling++;
-            // Ждем 3 последовательных "тихих" тика, чтобы быть на 100% уверенным, что анимация кончилась
-            if (stillScrolling >= 3) {
-                clearInterval(scrollCheck);
-                clearTimeout(timeout);
-                
-                // --- НАЧАЛО ГЛАВНОГО АНАЛИЗА ---
-                console.groupCollapsed('✅ [Диагност] АНИМАЦИЯ ЗАВЕРШЕНА. НАЧИНАЮ АНАЛИЗ ОТСТУПА.');
-                
-                const scrollPosBefore = window.pageYOffset;
-                console.log(`- Текущая позиция (до отступа): ${scrollPosBefore}px`);
-                console.log(`- Стиль overflow у <body>: '${getComputedStyle(document.body).overflow}'`);
-                console.log(`- Стиль overflow у <html>: '${getComputedStyle(document.documentElement).overflow}'`);
-                
-                console.log('--- КОМАНДА: window.scrollBy(0, -80) ---');
-                window.scrollBy(0, -80);
-                
-                const scrollPosAfter = window.pageYOffset;
-                console.log(`- Позиция СРАЗУ ПОСЛЕ команды: ${scrollPosAfter}px`);
-
-                if (scrollPosAfter < scrollPosBefore) {
-                    console.log('✅ УСПЕХ! Команда сдвинула страницу.');
-                } else {
-                    console.log('❌ ПРОВАЛ! Команда была проигнорирована или не сработала.');
-                }
-
-                setTimeout(() => {
-                    const finalScrollPos = window.pageYOffset;
-                    console.log(`- Финальная позиция (через 200мс): ${finalScrollPos}px`);
-                    if (finalScrollPos === scrollPosAfter) {
-                        console.log('ℹ️ Позиция стабильна. Никто не помешал.');
-                    } else {
-                        console.log('❗️❗️❗️ ВНИМАНИЕ! Что-то другое ВЕРНУЛО скролл на место ПОСЛЕ нашего фикса.');
-                    }
-                    console.groupEnd();
-                }, 200);
-                // --- КОНЕЦ ГЛАВНОГО АНАЛИЗА ---
-            }
-        } else {
-            stillScrolling = 0;
-            lastScrollY = currentScrollY;
-        }
-    }, 50);
-
-    timeout = setTimeout(() => {
-        clearInterval(scrollCheck);
-        console.warn('[Диагност] Аварийное отключение детектора через 2 секунды.');
-    }, 2000);
+  console.log('✅ [Фикс] Команда на раскрытие всех папок в меню отправлена.');
 }
 
 </script>
