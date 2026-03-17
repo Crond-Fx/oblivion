@@ -92,12 +92,17 @@ background: url(https://crond-fx.github.io/oblivion/files/menu-light.png)     4%
 	backdrop-filter: blur(4px);
 }
 
-button.tree-collapse-all {
+.clickable-icon.tree-collapse-all {
 	display: none !important;
+}
+
+.tree-item-self .tree-item-icon svg {
+	visibility: hidden;
 }
 
 .tree-item-children.nav-folder-children {
 	display: block !important;
+	margin-left: 24px;
 }
 
 .medium-zoom-overlay {
