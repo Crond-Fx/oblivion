@@ -31,87 +31,88 @@ function initMyZoom() {
 // фиксы для плагина HTML Export
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- ФИКС 1: Раскрываем древовидное меню ---
-  // Так как основной скрипт грузится асинхронно, запускаем "Ждуна"
+  // Ждем, пока плагин Obsidian полностью загрузится в память браузера
   const waitForSite = setInterval(() => {
-    // Ждем, пока ObsidianSite полностью инициализируется
-    if (window.ObsidianSite && window.ObsidianSite.isLoaded !== undefined) {
+    if (window.ObsidianSite && window.WebpageDocument) {
       clearInterval(waitForSite);
-
-      // Раскрываем меню при первом запуске
-      if (window.ObsidianSite.fileTree) {
-        window.ObsidianSite.fileTree.collapsedRecursive = false;
-      }
-
-      // Регистрируем хук: повторять раскрытие и проверять якори каждый раз, 
-      // когда плагин подгружает новую страницу (без перезагрузки браузера)
-      window.ObsidianSite.onDocumentLoad((doc) => {
-        // Убеждаемся, что дерево не свернулось обратно
-        if (window.ObsidianSite.fileTree) {
-          window.ObsidianSite.fileTree.collapsedRecursive = false;
-        }
-
-        // --- ФИКС 2.1: Переход по якорю при подгрузке НОВОЙ страницы ---
-        // doc.hash — это то, что идет после '#' в URL
-        const hash = doc.hash || window.location.hash.substring(1);
-        if (hash) scrollToHash(hash);
-      });
+      applyFixes();
     }
   }, 50);
 
-  // --- ФИКС 2.2: Переход по якорю в пределах ТЕКУЩЕЙ страницы ---
-  // Перехватываем клики по ссылкам, чтобы исправить логику плагина
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a');
-    if (!link) return;
-
-    const href = link.getAttribute('href') || '';
-    if (href.includes('#')) {
-      const hash = href.split('#')[1];
-      // Плагин предотвращает стандартный скролл и пытается крутить сам.
-      // Мы даем ему 50 миллисекунд на его провальную попытку, а затем
-      // берем дело в свои руки и крутим к нужному блоку.
-      setTimeout(() => {
-        scrollToHash(hash);
-      }, 50);
-    }
-  });
-
-  // Универсальная функция жесткого поиска элемента и скролла к нему
-  function scrollToHash(hash) {
-    if (!hash) return;
+  function applyFixes() {
     
-    // Obsidian часто кодирует пробелы и кириллицу (например %20)
-    const decodedHash = decodeURIComponent(hash);
+    // ==========================================
+    // ФИКС 1: Раскрытие древовидного меню
+    // ==========================================
+    let treeExpanded = false;
 
-    const findAndScroll = () => {
-      // Ищем везде: по ID, по декодированному ID, и на всякий случай по атрибуту name
-      const target = document.getElementById(hash) 
-                  || document.getElementById(decodedHash)
-                  || document.querySelector(`[name="${hash}"]`)
-                  || document.querySelector(`[name="${decodedHash}"]`);
+    const expandTree = () => {
+      // Раскрываем только один раз при старте, чтобы не бесить пользователя, 
+      // если он потом решит свернуть какую-то папку вручную.
+      if (treeExpanded) return; 
       
-      if (target) {
-        // Вычисляем позицию. -80px нужно, чтобы заголовок не прилипал
-        // к самому верху окна (особенно полезно, если есть плавающая шапка)
-        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top: topOffset, behavior: 'smooth' });
-        return true;
+      const tree = window.ObsidianSite.fileTree;
+      if (tree) {
+        tree.collapsedRecursive = false;
+        // Используем встроенный в плагин метод обхода всех папок
+        tree.forAllChildren(node => { 
+          node.collapsed = false; 
+        });
+        treeExpanded = true;
       }
-      return false;
     };
 
-    // Так как контент страницы может подтягиваться плагином асинхронно,
-    // элемент может появиться не сразу. Делаем 20 попыток с шагом 100мс (2 секунды)
-    let attempts = 0;
-    const retryInterval = setInterval(() => {
-      attempts++;
-      if (findAndScroll() || attempts > 20) {
-        clearInterval(retryInterval);
-      }
-    }, 100);
-  }
+    // Пробуем раскрыть сразу
+    if (window.ObsidianSite.isLoaded) expandTree();
+    // И вешаем на хук загрузки страницы (на случай, если плагин тупит)
+    window.ObsidianSite.onDocumentLoad(() => {
+      setTimeout(expandTree, 100);
+    });
 
+
+    // ==========================================
+    // ФИКС 2: Логика перехода по якорям
+    // ==========================================
+    
+    // Сохраняем оригинальную "поломанную" функцию плагина на всякий случай
+    const originalScrollToHeader = window.WebpageDocument.prototype.scrollToHeader;
+    
+    // Подменяем её на нашу умную версию
+    window.WebpageDocument.prototype.scrollToHeader = function(hash) {
+      if (!hash) return;
+      
+      // Раскодируем кириллицу (например, %D0%92%D0%B2 становится "Введение")
+      const decodedHash = decodeURIComponent(hash);
+      
+      // Превращаем подчеркивания обратно в пробелы для поиска по data-heading
+      // "Характеристики_и_ресурсы" -> "Характеристики и ресурсы"
+      const headingText = decodedHash.replace(/_/g, ' ');
+
+      // Ищем цель в порядке убывания надежности:
+      const target = 
+        // 1. По точному совпадению с суффиксом _0 (самый частый кейс)
+        document.getElementById(hash + '_0') ||
+        document.getElementById(decodedHash + '_0') ||
+        // 2. По атрибуту data-heading (убивает проблему с пробелами/подчеркиваниями)
+        document.querySelector(`[data-heading="${headingText}"]`) ||
+        document.querySelector(`[data-heading="${decodedHash}"]`) ||
+        // 3. Стандартный поиск, если вдруг плагин перестал добавлять _0
+        document.getElementById(hash) ||
+        document.getElementById(decodedHash);
+
+      if (target) {
+        // Вычисляем отступ от верха. -80px не даст заголовку прилипнуть 
+        // прямо к верхнему краю экрана (визуально красивее)
+        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      } else {
+        // Если вообще ничего не нашли, отдаем управление родной функции плагина
+        console.warn(`[Fix Script] Якорь "${hash}" не найден, использую стандартный скролл.`);
+        originalScrollToHeader.call(this, hash);
+      }
+    };
+
+  }
 });
 
 </script>
