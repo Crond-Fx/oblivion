@@ -3,21 +3,26 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Проверяем, что плагин точно загрузился, чтобы избежать ошибок
-  if (typeof mediumZoom === 'undefined') {
-    console.error('Плагин mediumZoom не загрузился!');
-    return;
-  }
+  if (typeof mediumZoom === 'undefined') return;
 
-  // 1. Инициализируем стартовые картинки
+  // 1. Запускаем плагин и сохраняем пульт управления в myZoom
   const myZoom = mediumZoom('.image-embed.is-loaded img');
+
+  // ДИАГНОСТИКА: сколько картинок плагин нашел при старте?
+  console.log('При старте плагин нашел картинок:', myZoom.getImages().length);
 
   // 2. Создаем наблюдателя
   const observer = new MutationObserver(() => {
+    // Пробуем добавить новые картинки
     myZoom.attach('.image-embed.is-loaded img');
+    
+    // ДИАГНОСТИКА: сколько картинок плагин знает сейчас?
+    const currentImagesCount = myZoom.getImages().length;
+    if (currentImagesCount > 0) {
+        console.log('DOM изменился! Теперь плагин контролирует картинок:', currentImagesCount);
+    }
   });
 
-  // 3. Запускаем слежку
   observer.observe(document.body, { 
     childList: true, 
     subtree: true, 
