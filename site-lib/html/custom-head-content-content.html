@@ -55,7 +55,6 @@ function fixAnchorScroll() {
     if (!hash) return;
 
     const tryScroll = () => {
-      attempts++;
       
       const decodedHash = decodeURIComponent(hash);
       const headingText = decodedHash.replace(/_/g, ' ');
