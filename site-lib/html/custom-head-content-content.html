@@ -28,20 +28,15 @@ function initMyZoom() {
 
 
 // ==========================================
-// СКРИПТ ФИКСОВ для Obsidian Export
+// ФИНАЛЬНЫЙ СКРИПТ ФИКСОВ для Obsidian Export
 // ==========================================
 
 // Запускаем "наблюдателя", который будет проверять готовность плагина
 const pluginWatcher = setInterval(() => {
   
-  // Ждем ключевого момента: когда плагин сам скажет, что он полностью загрузился.
   if (window.ObsidianSite && window.ObsidianSite.isLoaded) {
-    
-    // Как только плагин готов — останавливаем наблюдателя
     clearInterval(pluginWatcher);
     console.log('✅ [Фикс] Плагин Obsidian Export полностью готов. Применяем исправления!');
-    
-    // Запускаем наши функции-фиксы
     fixAnchorScroll();
     expandFileTree();
   }
@@ -78,18 +73,16 @@ function fixAnchorScroll() {
 
       if (target) {
         // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
-        // 1. Вычисляем точную позицию элемента от верха всей страницы.
-        const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
-        // 2. Вычитаем наш отступ в 80px, чтобы получить идеальную финальную точку.
-        const offsetPosition = elementPosition - 80;
+        // 1. Запускаем плавную прокрутку до элемента.
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        // 3. Выполняем ОДНУ плавную прокрутку до вычисленной точки.
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
+        // 2. Ждем 450 миллисекунд, чтобы анимация скролла ЗАВЕРШИЛАСЬ.
+        setTimeout(() => {
+          // 3. Делаем мгновенный отступ, когда страница уже не движется.
+          window.scrollBy(0, -80);
+        }, 450); // Этой задержки должно хватить для завершения анимации
 
-        console.log(`✅ [Фикс] Якорь "${hash}" найден! Прокручиваю к ${offsetPosition}px.`);
+        console.log(`✅ [Фикс] Якорь "${hash}" найден! Запускаю скролл с отложенным отступом.`);
 
       } else if (attempts < maxAttempts) {
         setTimeout(tryScroll, 100);
@@ -101,7 +94,7 @@ function fixAnchorScroll() {
     tryScroll();
   };
   
-  console.log('✅ [Фикс] Механизм скролла успешно заменен на вычисление точной позиции.');
+  console.log('✅ [Фикс] Механизм скролла заменен на scrollIntoView с задержкой для отступа.');
 }
 
 
