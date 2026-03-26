@@ -1,3 +1,20 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+.medium-zoom-overlay {
+	z-index: 998;
+	backdrop-filter: blur(6px);
+}
+
+html[saved-theme="dark"] .medium-zoom-overlay{
+	background-color: rgba(16, 16, 16, 0.24) !important;
+}
+
+html[saved-theme="light"] .medium-zoom-overlay{
+	background-color: rgba(240, 240, 240, 0.24) !important;
+}
+
+.medium-zoom-image {
+	z-index: 999;
+}
