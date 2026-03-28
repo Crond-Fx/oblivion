@@ -3,7 +3,7 @@ function initZoom() {
   if (typeof mediumZoom === 'function') {
     mediumZoom(".page img", {
       background: "rgba(0, 0, 0, 0.8)",
-      margin: 40,
+      margin: 16,
     });
   }
 }
