@@ -21,4 +21,13 @@ html[saved-theme="light"] .medium-zoom-overlay{
 
 img {
 	border-radius: 0 !important;
+	margin: 0 !important;
+}
+
+th {
+	border: 1px solid var(--lightgray) !important;
+}
+
+tr {
+	border: 1px solid var(--lightgray) !important;
 }
