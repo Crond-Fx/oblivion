@@ -2,6 +2,10 @@
 
 // put your custom CSS here!
 
+::selection {
+  background: color-mix(in srgb, var(--secondary) 24%, #fff0) !important;
+}
+
 .medium-zoom-overlay {
 	z-index: 998;
 	backdrop-filter: blur(6px);
