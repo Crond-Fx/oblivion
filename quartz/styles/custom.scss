@@ -29,19 +29,7 @@ html[saved-theme="light"] .medium-zoom-overlay {
 	gap: 0px;
 }
 
-.page>#quartz-body .center>article p,
-.page>#quartz-body .center>article ul,
-.page>#quartz-body .center>article text,
-.page>#quartz-body .center>article a,
-.page>#quartz-body .center>article tr,
-.page>#quartz-body .center>article td,
-.page>#quartz-body .center>article li,
-.page>#quartz-body .center>article ol,
-.page>#quartz-body .center>article ul,
-.page>#quartz-body .center>article .katex,
-.page>#quartz-body .center>article .math,
-.page>#quartz-body .center>article .typst-doc,
-.page>#quartz-body .center>article g[class~="typst-text"] {
+.page>#quartz-body .center>article p {
 	margin-top: 0;
 	margin-bottom: 0.5rem;
 }
