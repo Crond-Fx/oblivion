@@ -3,7 +3,7 @@
 // put your custom CSS here!
 
 ::selection {
-  background: color-mix(in srgb, var(--secondary) 24%, #fff0) !important;
+	background: color-mix(in srgb, var(--secondary) 24%, #fff0) !important;
 }
 
 .medium-zoom-overlay {
@@ -11,16 +11,48 @@
 	backdrop-filter: blur(6px);
 }
 
-html[saved-theme="dark"] .medium-zoom-overlay{
+html[saved-theme="dark"] .medium-zoom-overlay {
 	background-color: rgba(16, 16, 16, 0.24) !important;
 }
 
-html[saved-theme="light"] .medium-zoom-overlay{
+html[saved-theme="light"] .medium-zoom-overlay {
 	background-color: rgba(240, 240, 240, 0.24) !important;
 }
 
 .medium-zoom-image {
 	z-index: 999;
+}
+
+.page>#quartz-body .center>article {
+	display: flex;
+	flex-direction: column;
+	gap: 0px;
+}
+
+p,
+ul,
+text,
+a,
+tr,
+td,
+li,
+ol,
+ul,
+.katex,
+.math,
+.typst-doc,
+g[class~="typst-text"] {
+	margin-top: 0;
+	margin-bottom: 0.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-bottom: 0.5rem;
 }
 
 img {
@@ -37,5 +69,5 @@ tr {
 }
 
 tr:has(th:empty) {
-  display: none;
+	display: none;
 }
