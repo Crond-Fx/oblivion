@@ -29,7 +29,8 @@ html[saved-theme="light"] .medium-zoom-overlay {
 	gap: 0px;
 }
 
-.page>#quartz-body .center>article p {
+.page>#quartz-body .center>article p,
+.page>#quartz-body .center>article ul {
 	margin-top: 0;
 	margin-bottom: 0.5rem;
 }
