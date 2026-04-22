@@ -40,11 +40,16 @@ html[saved-theme="light"] .medium-zoom-overlay {
   	line-height: 1.25rem;
   	display: block;
   	border-left: 1px solid var(--gray);
+	color: var(--darkgray);
 }
 
-.explorer-content ul li > a.active,
-.explorer-content ul li > a:hover {
+.explorer-content ul li > a.active {
 	border-left-color: var(--tertiary);
+}
+
+.explorer-content ul li > a:hover {
+	color: var(--dark);
+	border-left-color: var(--dark);
 }
 
 .page>#quartz-body .center>article {
