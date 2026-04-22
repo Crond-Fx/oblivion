@@ -23,14 +23,18 @@ html[saved-theme="light"] .medium-zoom-overlay {
 	z-index: 999;
 }
 
+.folder-container {
+	line-height: 1.25rem;
+  	padding-bottom: 0.2rem;
+}
+
 .explorer-content .folder-outer > ul {
 	border: none;
 	margin-left: 0;
   	padding-left: 0;
 }
 
-.explorer-ul .content li,
-.folder-container {
+.explorer-ul .content li {
 	line-height: 1.25rem;
   	padding-bottom: 0.2rem;
 }
