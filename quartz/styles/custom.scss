@@ -29,6 +29,12 @@ html[saved-theme="light"] .medium-zoom-overlay {
   	padding-left: 0;
 }
 
+.explorer-ul .content li,
+.folder-container {
+	line-height: 1.25rem;
+  	padding-bottom: 0.2rem;
+}
+
 .page>#quartz-body .center>article {
 	display: flex;
 	flex-direction: column;
