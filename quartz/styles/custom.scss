@@ -34,10 +34,16 @@ html[saved-theme="light"] .medium-zoom-overlay {
   	padding-left: 0;
 }
 
-.explorer-ul .content li a {
-	padding: .25rem 0 .25rem .5rem;
+.explorer-content ul li > a {
+	margin-left: 0.75rem;
+  	padding: .2rem 0 .2rem .6rem;
   	line-height: 1.25rem;
-  	margin-left: .5rem;
+  	display: block;
+  	border-left: 1px solid var(--gray);
+}
+
+.explorer-content ul li > a {
+	border-left-color: var(--tertiary);
 }
 
 .page>#quartz-body .center>article {
