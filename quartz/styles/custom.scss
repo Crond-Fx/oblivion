@@ -34,9 +34,10 @@ html[saved-theme="light"] .medium-zoom-overlay {
   	padding-left: 0;
 }
 
-.explorer-ul .content li {
-	line-height: 1.25rem;
-  	padding-bottom: 0.2rem;
+.explorer-ul .content li a {
+	padding: .25rem 0 .25rem .5rem;
+  	line-height: 1.25rem;
+  	margin-left: .5rem;
 }
 
 .page>#quartz-body .center>article {
