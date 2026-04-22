@@ -52,6 +52,10 @@ html[saved-theme="light"] .medium-zoom-overlay {
 	border-left-color: var(--dark);
 }
 
+ul.toc-content.overflow > li > a {
+  	font-weight: lighter;
+}
+
 .page>#quartz-body .center>article {
 	display: flex;
 	flex-direction: column;
