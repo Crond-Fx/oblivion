@@ -23,6 +23,10 @@ html[saved-theme="light"] .medium-zoom-overlay {
 	z-index: 999;
 }
 
+.explorer-content .folder-outer > ul {
+	border: none;
+}
+
 .page>#quartz-body .center>article {
 	display: flex;
 	flex-direction: column;
