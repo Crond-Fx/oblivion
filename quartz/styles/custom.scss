@@ -40,15 +40,15 @@ html[saved-theme="light"] .medium-zoom-overlay {
   	line-height: 1.25rem;
   	display: block;
   	border-left: 1px solid var(--gray);
-	color: var(--darkgray);
+	font-weight: lighter;
 }
 
 .explorer-content ul li > a.active {
 	border-left-color: var(--tertiary);
+	font-weight: bold;
 }
 
 .explorer-content ul li > a:hover {
-	color: var(--dark);
 	border-left-color: var(--dark);
 }
 
