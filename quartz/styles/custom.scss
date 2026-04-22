@@ -42,7 +42,7 @@ html[saved-theme="light"] .medium-zoom-overlay {
   	border-left: 1px solid var(--gray);
 }
 
-.explorer-content ul li > a {
+.explorer-content ul li > a.active {
 	border-left-color: var(--tertiary);
 }
 
