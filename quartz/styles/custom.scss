@@ -67,8 +67,14 @@ ul.toc-content.overflow > li > a {
 	margin-bottom: 0.5rem;
 }
 
+.page > #quartz-body .center > article blockquote {
+  	margin-top: 0;
+	margin-bottom: 0.5rem;
+}
+
 .page > #quartz-body .center > article blockquote p {
-  margin-top: .5rem;
+  	margin-top: 0;
+  	margin-bottom: 0;
 }
 
 .page>#quartz-body .center>article ul {
