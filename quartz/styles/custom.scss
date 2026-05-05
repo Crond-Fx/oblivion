@@ -82,16 +82,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .callout {
-  padding: 0 1.25rem;
+	padding: 0 1.25rem;
 }
 
 .callout-title {
-  gap: 1.25rem;
-  padding: 1rem 0 0 0;
+	gap: 1.25rem;
+	padding: 1rem 0 0 0;
 }
 
 .callout > .callout-content {
-  padding-bottom: 0.25rem;
+	padding-bottom: 0.25rem;
 }
 
 img {
@@ -109,4 +109,10 @@ tr {
 
 tr:has(th:empty) {
 	display: none;
+}
+
+ul.toc-content.overflow > li > a {
+	display: block;
+	line-height: 1.25rem;
+	padding: .2rem 0;
 }
