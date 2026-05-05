@@ -43,21 +43,14 @@ export const defaultContentPageLayout: PageLayout = {
       folderClickBehavior: "link",
       folderDefaultState: "open",
       order: ["filter", "sort", "map"],
-      mapFn: (node) => {
-        node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
-      },
       sortFn: (a, b) => {
-        const orderA = (a as any).file?.frontmatter?.order ?? 999
-        const orderB = (b as any).file?.frontmatter?.order ?? 999
-
-        if (orderA !== orderB) {
-          return orderA - orderB
-        }
-
         return a.displayName.localeCompare(b.displayName, undefined, {
           numeric: true,
           sensitivity: "base",
         })
+      },
+      mapFn: (node) => {
+        node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
       },
     }),
   ],
