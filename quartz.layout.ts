@@ -42,6 +42,7 @@ export const defaultContentPageLayout: PageLayout = {
       title: "Содержание",
       folderClickBehavior: "link",
       folderDefaultState: "open",
+      order: ["filter", "map", "sort"], 
       mapFn: (node) => {
         // Регулярное выражение: ищет цифры в начале строки, 
         // за которыми следует точка, тире, подчеркивание или пробел.
