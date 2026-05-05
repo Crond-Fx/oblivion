@@ -43,12 +43,6 @@ export const defaultContentPageLayout: PageLayout = {
       folderClickBehavior: "link",
       folderDefaultState: "open",
       order: ["filter", "sort", "map"],
-      sortFn: (a, b) => {
-        return a.displayName.localeCompare(b.displayName, undefined, {
-          numeric: true,
-          sensitivity: "base",
-        })
-      },
       mapFn: (node) => {
         node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
       },
