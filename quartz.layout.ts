@@ -42,12 +42,18 @@ export const defaultContentPageLayout: PageLayout = {
       title: "Содержание",
       folderClickBehavior: "link",
       folderDefaultState: "open",
-      order: ["filter", "sort", "map"], 
+      order: ["filter", "sort", "map"],
       mapFn: (node) => {
         // Регулярное выражение: ищет цифры в начале строки, 
         // за которыми следует точка, тире, подчеркивание или пробел.
         // Например, превратит "01_Заметки" в "Заметки"
         node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
+      },
+      sortFn: (a, b) => {
+        return a.displayName.localeCompare(b.displayName, undefined, {
+          numeric: true,
+          sensitivity: "base",
+        })
       },
     }),
   ],
