@@ -42,6 +42,12 @@ export const defaultContentPageLayout: PageLayout = {
       title: "Содержание",
       folderClickBehavior: "link",
       folderDefaultState: "open",
+      mapFn: (node) => {
+        // Регулярное выражение: ищет цифры в начале строки, 
+        // за которыми следует точка, тире, подчеркивание или пробел.
+        // Например, превратит "01_Заметки" в "Заметки"
+        node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
+      },
     }),
   ],
   right: [
