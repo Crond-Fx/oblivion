@@ -49,12 +49,6 @@ export const defaultContentPageLayout: PageLayout = {
         // Например, превратит "01_Заметки" в "Заметки"
         node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
       },
-      sortFn: (a, b) => {
-        return a.displayName.localeCompare(b.displayName, undefined, {
-          numeric: true,
-          sensitivity: "base",
-        })
-      },
     }),
   ],
   right: [
