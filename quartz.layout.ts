@@ -44,10 +44,20 @@ export const defaultContentPageLayout: PageLayout = {
       folderDefaultState: "open",
       order: ["filter", "sort", "map"],
       mapFn: (node) => {
-        // Регулярное выражение: ищет цифры в начале строки, 
-        // за которыми следует точка, тире, подчеркивание или пробел.
-        // Например, превратит "01_Заметки" в "Заметки"
         node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
+      },
+      sortFn: (a, b) => {
+        const orderA = (a as any).file?.frontmatter?.order ?? 999
+        const orderB = (b as any).file?.frontmatter?.order ?? 999
+
+        if (orderA !== orderB) {
+          return orderA - orderB
+        }
+
+        return a.displayName.localeCompare(b.displayName, undefined, {
+          numeric: true,
+          sensitivity: "base",
+        })
       },
     }),
   ],
