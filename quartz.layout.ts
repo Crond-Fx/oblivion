@@ -43,6 +43,11 @@ export const defaultContentPageLayout: PageLayout = {
       folderClickBehavior: "link",
       folderDefaultState: "open",
       order: ["filter", "sort", "map"],
+      sortFn: (a, b) => {
+        const orderA = a.data?.frontmatter?.order ?? 999
+        const orderB = b.data?.frontmatter?.order ?? 999
+        return orderA - orderB
+      },
       mapFn: (node) => {
         node.displayName = node.displayName.replace(/^\d+[._-\s]+/, "")
       },
