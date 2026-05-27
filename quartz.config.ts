@@ -16,7 +16,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "ru-RU",
-    baseUrl: "quartz.jzhao.xyz",
+    baseUrl: "crond-fx.github.io/oblivion",
     ignorePatterns: ["private", "templates", ".obsidian", "Засекречено", "Черновики"],
     defaultDateType: "modified",
     theme: {
