@@ -8,6 +8,9 @@ import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
 
+// mod: inherit definition of frontmatter
+import { QuartzPluginData } from "../vfile"
+
 export type ContentIndexMap = Map<FullSlug, ContentDetails>
 export type ContentDetails = {
   slug: FullSlug
@@ -19,6 +22,9 @@ export type ContentDetails = {
   richContent?: string
   date?: Date
   description?: string
+
+  // mod: add frontmatter
+  frontmatter?: QuartzPluginData["frontmatter"]
 }
 
 interface Options {
@@ -115,6 +121,9 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               : undefined,
             date: date,
             description: file.data.description ?? "",
+            
+            // mod: add the original frontmatter as whole
+            frontmatter: file.data.frontmatter,
           })
         }
       }
