@@ -3,7 +3,7 @@ import * as Component from "./quartz/components"
 
 // mod: define Explorer functions
 import { Options } from "./quartz/components/Explorer"
- 
+
 export const mapFn: Options["mapFn"] = (node) => {
   return node
 }
@@ -11,61 +11,41 @@ export const filterFn: Options["filterFn"] = (node) => {
   return node.slugSegment !== "tags"
 }
 export const sortFn: Options["sortFn"] = (a, b) => {
-  const rawA = a.isFolder ? a.data?.frontmatter?.folderOrder : a.data?.frontmatter?.noteOrder
-  const rawB = b.isFolder ? b.data?.frontmatter?.folderOrder : b.data?.frontmatter?.noteOrder
- 
-  const orderA = rawA !== undefined && rawA !== null ? Number(rawA) : undefined
-  const orderB = rawB !== undefined && rawB !== null ? Number(rawB) : undefined
+  // mod: sort folders and files based on folderOrder and noteOrder
+  //      to find ways to retrieve folderOrder and noteOrder from frontmatter
+  //      we now have to include frontmatter in ContentDetails and linkIndex.set()
 
-  // ================= ДИАГНОСТИЧЕСКОЕ ЛОГИРОВАНИЕ =================
-  // Нам интересно посмотреть, что происходит при сравнении нашей статьи «Энергоресурсы»
-  const isTargetA = a.displayName.includes("Энергоресурсы")
-  const isTargetB = b.displayName.includes("Энергоресурсы")
+  // extract order from frontmatter
+  const orderA = a.isFolder
+    ? a.data?.frontmatter?.folderOrder as number | undefined
+    : a.data?.frontmatter?.noteOrder as number | undefined
+  const orderB = b.isFolder
+    ? b.data?.frontmatter?.folderOrder as number | undefined
+    : b.data?.frontmatter?.noteOrder as number | undefined
 
-  if (isTargetA || isTargetB) {
-    console.log(`\n=== [DEBUG SORT] Сравнение в проводнике ===`)
-    console.log(`  Файл A: "${a.displayName}" (isFolder: ${a.isFolder})`)
-    console.log(`    a.data существует? ${!!a.data}`)
-    console.log(`    a.data.frontmatter:`, a.data?.frontmatter)
-    console.log(`    Извлечено rawA: ${rawA} (тип: ${typeof rawA}) -> orderA: ${orderA}`)
-    
-    console.log(`  Файл B: "${b.displayName}" (isFolder: ${b.isFolder})`)
-    console.log(`    b.data существует? ${!!b.data}`)
-    console.log(`    b.data.frontmatter:`, b.data?.frontmatter)
-    console.log(`    Извлечено rawB: ${rawB} (тип: ${typeof rawB}) -> orderB: ${orderB}`)
-    console.log(`==========================================\n`)
-  }
-  // ===============================================================
-
-  // Обычная логика сравнения
+  // method I: folders first, then files, sort folders and files separately
+  // compare orderA and orderB, those undefined will be placed at the end
   if ((!a.isFolder && !b.isFolder) || (a.isFolder && b.isFolder)) {
     if (orderA !== undefined && orderB !== undefined) {
+      // compare based on the order
       return orderA - orderB;
     } else if (orderA !== undefined) {
+      // move B to the back
       return -1;
     } else if (orderB !== undefined) {
+      // move A to the back
       return 1;
     } else {
+      // fall back to alphabetical order
       return a.displayName.localeCompare(b.displayName);
     }
   }
+  // keep folders in front
   if (!a.isFolder && b.isFolder) {
     return 1
   } else {
     return -1
   }
-}
-
-// Объединяем настройки Explorer в один объект, чтобы не дублировать код
-const explorerConfig: Options = {
-  title: "Содержание",
-  folderClickBehavior: "link",
-  folderDefaultState: "open",
-  useSavedState: false, // Временно отключаем кэш для проверки сортировки
-  order: ["filter", "sort", "map"],
-  mapFn,
-  filterFn,
-  sortFn,
 }
 
 // components shared across all pages
@@ -105,13 +85,23 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(explorerConfig), // Применяем общую конфигурацию
+    Component.Explorer({
+      title: "Содержание",
+      folderClickBehavior: "link",
+      folderDefaultState: "open",
+      order: ["filter", "sort", "map"],
+      mapFn,
+      filterFn,
+      sortFn,
+    }),
   ],
   right: [
+    // Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
 }
+
 
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
@@ -128,7 +118,12 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(explorerConfig), // Теперь сортировка применится и здесь!
+    Component.Explorer({
+      order: ["filter", "sort", "map"],
+      mapFn,
+      filterFn,
+      sortFn,
+    }),
   ],
   right: [],
 }
