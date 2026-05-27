@@ -121,3 +121,8 @@ ul.toc-content.overflow > li > a {
 	line-height: 1.25rem;
 	padding: .2rem 0;
 }
+
+.tnum {
+	font-variant-numeric: tabular-nums; 
+	font-feature-settings: "tnum" 1; 
+}
