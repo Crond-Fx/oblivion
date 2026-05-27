@@ -3,7 +3,7 @@ import * as Component from "./quartz/components"
 
 // mod: define Explorer functions
 import { Options } from "./quartz/components/Explorer"
- 
+
 export const mapFn: Options["mapFn"] = (node) => {
   return node
 }
@@ -14,7 +14,7 @@ export const sortFn: Options["sortFn"] = (a, b) => {
   // mod: sort folders and files based on folderOrder and noteOrder
   //      to find ways to retrieve folderOrder and noteOrder from frontmatter
   //      we now have to include frontmatter in ContentDetails and linkIndex.set()
- 
+
   // extract order from frontmatter
   const orderA = a.isFolder
     ? a.data?.frontmatter?.folderOrder as number | undefined
@@ -22,7 +22,7 @@ export const sortFn: Options["sortFn"] = (a, b) => {
   const orderB = b.isFolder
     ? b.data?.frontmatter?.folderOrder as number | undefined
     : b.data?.frontmatter?.noteOrder as number | undefined
- 
+
   // method I: folders first, then files, sort folders and files separately
   // compare orderA and orderB, those undefined will be placed at the end
   if ((!a.isFolder && !b.isFolder) || (a.isFolder && b.isFolder)) {
@@ -118,7 +118,12 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      order: ["filter", "sort", "map"],
+      mapFn,
+      filterFn,
+      sortFn,
+    }),
   ],
   right: [],
 }
