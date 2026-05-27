@@ -4,7 +4,7 @@ import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
 import { FullSlug } from "../../util/path"
-import { sharedPageComponents } from "../../../quartz.layout"
+import { sharedPageComponents, mapFn, filterFn, sortFn } from "../../../quartz.layout"
 import { NotFound } from "../../components"
 import { defaultProcessedContent } from "../vfile"
 import { write } from "./helpers"
@@ -34,6 +34,10 @@ export const NotFoundPage: QuartzEmitterPlugin = () => {
         title: "Содержание",
         folderClickBehavior: "link",
         folderDefaultState: "open",
+        order: ["filter", "sort", "map"],
+        mapFn,
+        filterFn,
+        sortFn,
       }),
     ],
     right: [],
@@ -76,6 +80,6 @@ export const NotFoundPage: QuartzEmitterPlugin = () => {
         ext: ".html",
       })
     },
-    async *partialEmit() {},
+    async *partialEmit() { },
   }
 }
