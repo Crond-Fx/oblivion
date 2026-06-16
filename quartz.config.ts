@@ -23,9 +23,9 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Onest",
+        header: "Geologica",
         body: "Overpass",
-        code: "IBM Plex Mono",
+        code: "Overpass Mono",
       },
       colors: {
         lightMode: {
