@@ -150,11 +150,11 @@ ul.toc-content.overflow > li > a {
     cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: 0.2s;
-    color: var(--gray);
+    color: var(--darkgray);
     font-weight: 500;
 
     &:hover {
-      color: var(--dark);
+      color: var(--tertiary);
     }
   }
 
