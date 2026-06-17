@@ -151,6 +151,7 @@ ul.toc-content.overflow > li > a {
     border-bottom: 2px solid transparent;
     transition: 0.2s;
     color: var(--darkgray);
+	font-family: var(--headerFont);
     font-weight: 500;
 
     &:hover {
