@@ -132,3 +132,46 @@ ul.toc-content.overflow > li > a {
 	font-variant-numeric: tabular-nums; 
 	font-feature-settings: "tnum" 1; 
 }
+
+/* Табы */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  border-bottom: 1px solid var(--lightgray);
+
+  input[type="radio"] {
+    display: none; // Скрываем реальные кнопки
+  }
+
+  label {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: 0.2s;
+    color: var(--gray);
+    font-weight: 500;
+
+    &:hover {
+      color: var(--dark);
+    }
+  }
+
+  .tab-content {
+    display: none; // По умолчанию контент скрыт
+    width: 100%;
+    padding: 1rem 0;
+    order: 99; // Контент всегда внизу
+  }
+
+  // Логика переключения: если radio checked, показываем контент
+  input:checked + label {
+    border-bottom-color: var(--tertiary);
+    color: var(--dark);
+  }
+
+  input:checked + label + .tab-content {
+    display: block;
+  }
+}
