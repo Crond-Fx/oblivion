@@ -92,11 +92,15 @@ a.internal {
 
 .callout-title {
 	gap: 1.25rem;
-	padding: 1rem 0 0.5rem;
+	padding: 1rem 0 0;
 }
 
 .callout>.callout-content {
 	padding-bottom: 0.75rem;
+}
+
+.callout-content p:first-of-type {
+  padding-top: 0.25rem;
 }
 
 img {
