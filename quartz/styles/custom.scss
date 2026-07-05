@@ -140,12 +140,21 @@ ul.toc-content.overflow>li>a {
 
 // Quartz spoilers
 
-article > *:has(#spoiler-trigger) ~ * {
-  transition: filter 0.5s ease;
+/* 1. Плавность перехода для самих блоков и всех вложенных в них элементов */
+article > p:has(#spoiler-trigger) ~ *,
+article > p:has(#spoiler-trigger) ~ * * {
+  transition: filter 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
 }
 
-article > *:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) {
-  filter: blur(8px);
+/* 2. Стили для закрытого спойлера (применяем и к блокам, и напрямую к их детям) */
+article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style),
+article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
+  /* Если вы используете размытие: */
+  filter: blur(0.5rem); 
+  
+  /* Если вы тестируете скрытие через прозрачный цвет (как на скриншоте): */
+  /* color: transparent !important; */
+  
   pointer-events: none; /* Блокируем клики */
   user-select: none;     /* Блокируем выделение */
 }
@@ -177,9 +186,6 @@ article > *:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) {
 #spoiler-trigger[disabled] {
 	background-color: var(--gray);
 	cursor: not-allowed;
-
-	// Раскомментировать, если надо чтобы кнопка просто исчезла после нажатия
-	// display: none; 
 }
 
 
