@@ -151,29 +151,31 @@ article > *:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) {
 }
 
 #spoiler-trigger {
-  padding: 8px 16px;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  font-family: inherit;
-  margin: 1.5em 0;
-  transition: all 0.3s ease;
+	width: 100%;
+	border: none;
+	border-radius: 5px;
+	background-color: var(--secondary);
+	padding: 1rem;
+
+	color: var(--light);
+	font-weight: 900;
+	transition: all .3s;
+	font-family: var(--headerFont);
+	font-size: 1rem;
+
+	cursor: pointer;
 }
 
 #spoiler-trigger:hover {
-  background-color: #2563eb;
+	background-color: var(--darkgray);
 }
 
 #spoiler-trigger[disabled] {
-  background-color: #9ca3af;
-  cursor: not-allowed;
-  opacity: 0.6;
+	background-color: var(--gray);
+	cursor: not-allowed;
 
-  // Раскомментировать, если надо чтобы кнопка просто исчезла после нажатия
-  // display: none; 
+	// Раскомментировать, если надо чтобы кнопка просто исчезла после нажатия
+	// display: none; 
 }
 
 
