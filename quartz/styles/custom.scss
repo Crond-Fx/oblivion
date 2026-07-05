@@ -180,7 +180,7 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 
 #spoiler-trigger[disabled] {
 	background-color: var(--gray);
-	cursor: not-allowed;
+	cursor: default;
 }
 
 
