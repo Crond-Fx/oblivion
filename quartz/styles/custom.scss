@@ -167,6 +167,10 @@ article > *:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) {
 }
 
 #spoiler-trigger:hover {
+	background-color: var(--dark);
+}
+
+#spoiler-trigger:active {
 	background-color: var(--darkgray);
 }
 
