@@ -1,7 +1,5 @@
 @use "./base.scss";
 
-// put your custom CSS here!
-
 ::selection {
 	background: color-mix(in srgb, var(--secondary) 24%, #fff0) !important;
 }
