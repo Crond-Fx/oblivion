@@ -140,23 +140,18 @@ ul.toc-content.overflow>li>a {
 
 // Quartz spoilers
 
-/* 1. Плавность перехода для самих блоков и всех вложенных в них элементов */
 article > p:has(#spoiler-trigger) ~ *,
 article > p:has(#spoiler-trigger) ~ * * {
   transition: filter 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
 }
 
-/* 2. Стили для закрытого спойлера (применяем и к блокам, и напрямую к их детям) */
 article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style),
 article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
-  /* Если вы используете размытие: */
-  filter: blur(0.5rem); 
+
+	filter: blur(6px); 
   
-  /* Если вы тестируете скрытие через прозрачный цвет (как на скриншоте): */
-  /* color: transparent !important; */
-  
-  pointer-events: none; /* Блокируем клики */
-  user-select: none;     /* Блокируем выделение */
+	pointer-events: none;
+	user-select: none;
 }
 
 #spoiler-trigger {
