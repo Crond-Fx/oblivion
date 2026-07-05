@@ -140,13 +140,13 @@ ul.toc-content.overflow>li>a {
 
 // Quartz spoilers
 
-article > p:has(#spoiler-trigger) ~ *,
-article > p:has(#spoiler-trigger) ~ * * {
+article > p:has(#spoiler-page) ~ *,
+article > p:has(#spoiler-page) ~ * * {
   transition: filter 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
 }
 
-article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style),
-article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
+article > p:has(#spoiler-page:not([disabled])) ~ *:not(script):not(style),
+article > p:has(#spoiler-page:not([disabled])) ~ *:not(script):not(style) * {
 
 	filter: blur(6px); 
   
@@ -154,7 +154,7 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 	user-select: none;
 }
 
-#spoiler-trigger {
+.spoiler-button {
 	width: 100%;
 	border: none;
 	border-radius: 5px;
@@ -170,15 +170,15 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 	cursor: pointer;
 }
 
-#spoiler-trigger:hover {
+.spoiler-button:hover {
 	background-color: var(--dark);
 }
 
-#spoiler-trigger:active {
+.spoiler-button:active {
 	background-color: var(--darkgray);
 }
 
-#spoiler-trigger[disabled] {
+.spoiler-button[disabled] {
 	background-color: var(--gray);
 	cursor: default;
 }
