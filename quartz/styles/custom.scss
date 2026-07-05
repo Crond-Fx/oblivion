@@ -214,6 +214,16 @@ source: https://www.stevensmith.me/Notes/Testing-Tabs
 	gap: 0 1rem;
 }
 
+@media (max-width: 768px) {
+	[data-callout="tabbed"]>.callout-content {
+		/* Переключаем сетку на 2 равные колонки по 50% */
+		grid-template-columns: repeat(2, 1fr);
+		
+		/* Немного уменьшаем зазор между табами по горизонтали, чтобы помещались длинные слова */
+		gap: 0 0.5rem; 
+	}
+}
+
 [data-callout="tabbed"]>.callout-title {
 	display: none;
 }
