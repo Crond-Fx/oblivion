@@ -96,6 +96,16 @@ h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 0.5rem;
 }
 
+.heading-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.heading-link:hover {
+  color: var(--tertiary);
+  text-decoration: none;
+}
+
 a.internal {
 	background-color: transparent;
 	text-decoration: underline;
