@@ -195,33 +195,38 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 }
 
 
-// Quartz tabs
-/*
-author: FireIsGood
-source: https://www.stevensmith.me/Notes/Testing-Tabs
-*/
-
-/* 1. Настраиваем контейнер на Flexbox */
-[data-callout="tabbed"] > .callout-content {
-	padding: 0.25rem;
-	display: flex;       /* Переключаемся на флексы */
-	flex-wrap: wrap;     /* Разрешаем перенос вкладок на новую строку */
-	gap: 0 1rem;         /* Зазор между вкладками */
+/* Quartz tabs */
+[data-callout="tabbed"] {
+	background: transparent;
+	border: none;
+	padding: 0;
 }
 
-/* 2. Настраиваем вкладки (параграфы) */
-/* Добавили >, чтобы стили применялись только к верхним параграфам-вкладкам */
+[data-callout="tabbed"] > .callout-title {
+	display: none;
+}
+
+[data-callout="tabbed"] > .callout-content {
+	padding: 0.25rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1rem;
+}
+
 [data-callout="tabbed"] > .callout-content > p {
 	margin: 0;
 	padding: 0;
-	flex: 0 0 auto;      /* Ширина строго по размеру текста */
-	order: 1;            /* Всегда в начале ряда */
+	flex: 1 1 auto;
+	min-width: 5rem;
 }
 
-/* 3. Настраиваем ярлыки (текст) */
+[data-callout="tabbed"] > .callout-content label > input {
+	display: none;
+}
+
 [data-callout="tabbed"] > .callout-content label {
+	display: block;
 	width: 100%;
-	display: inline-block;
 	padding: 0.5rem 0.75ch;
 	border-bottom: 2px solid var(--lightgray);
 	font-family: var(--headerFont);
@@ -229,38 +234,30 @@ source: https://www.stevensmith.me/Notes/Testing-Tabs
 	color: var(--darkgray);
 	text-align: center;
 	cursor: pointer;
-	
-	white-space: nowrap; /* КРИТИЧНО: запрещает разрыв слова "Константан" */
+	user-select: none;
+	white-space: nowrap;
+	transition: all 0.2s ease;
 }
 
-/* 4. Настраиваем блок с контентом */
-[data-callout="tabbed"] > .callout-content > blockquote {
-	order: 2;            /* Всегда после всех вкладок */
-	flex: 0 0 100%;      /* Всегда занимает 100% ширины под вкладками */
-	
-	background-color: transparent;
-	padding-left: 0;
-	border: 0;
-	margin: 0;
-}
-
-/* --- МОБИЛЬНАЯ ВЕРСИЯ (2 вкладки в ряд) --- */
-@media (max-width: 768px) {
-	[data-callout="tabbed"] > .callout-content > p {
-		/* Каждая вкладка занимает 50% минус зазор, чтобы встать по две в ряд */
-		flex: 1 1 calc(50% - 0.5rem); 
-	}
-}
-
-/* Состояния вкладок (оставляем как было) */
 [data-callout="tabbed"] > .callout-content label:hover {
 	color: var(--tertiary);
 	border-bottom-color: var(--gray);
 }
+
 [data-callout="tabbed"] > .callout-content label:has(input:checked) {
 	color: var(--dark);
 	border-bottom-color: var(--tertiary);
 }
+
 [data-callout="tabbed"] > .callout-content p:not(:has(label input:checked)) + blockquote {
 	display: none;
+}
+
+[data-callout="tabbed"] > .callout-content > blockquote {
+	order: 999;
+	flex: 1 1 100%;
+	margin-top: 1rem;
+	background-color: transparent;
+	padding-left: 0;
+	border: 0;
 }
