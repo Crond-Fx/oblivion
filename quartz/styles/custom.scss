@@ -131,12 +131,29 @@ a.internal {
 	padding-top: 0.25rem;
 }
 
+blockquote.is-collapsible {
+	padding: 0;
+}
+
 .callout.is-collapsible .callout-title {
 	cursor: pointer;
+	padding: 1rem 1.25rem 0.75rem;
+}
+
+.callout.is-collapsible > .callout-content {
+	padding: 0 1.25rem;
+}
+
+.callout-content p:first-of-type {
+	padding: 0;
+}
+
+.callout.is-collapsible .callout-content p:last-of-type {
+	padding-bottom: .75rem;
 }
 
 .callout.is-collapsible .callout-title .callout-title-inner {
-  flex-grow: 1;
+	flex-grow: 1;
 }
 
 img {
