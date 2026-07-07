@@ -25,6 +25,9 @@ html[saved-theme="light"] .medium-zoom-overlay {
 	.page > #quartz-body .sidebar.left:has(.explorer) {
 		margin: 0 -1rem;
 		padding: 1rem;
+		border-bottom: 1px solid var(--lightgray);
+    	background-color: #faf8f8e8;
+    	backdrop-filter: blur(6px);
 	}
 }
 
