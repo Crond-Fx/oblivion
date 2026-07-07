@@ -131,6 +131,14 @@ a.internal {
 	padding-top: 0.25rem;
 }
 
+.callout.is-collapsible .callout-title {
+	cursor: pointer;
+}
+
+.callout.is-collapsible .callout-title .callout-title-inner {
+  flex-grow: 1;
+}
+
 img {
 	border-radius: 0 !important;
 	margin: 0.75rem 0 0 !important;
