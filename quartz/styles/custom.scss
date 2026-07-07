@@ -148,7 +148,7 @@ blockquote.is-collapsible {
 	padding: 0;
 }
 
-.callout.is-collapsible .callout-content p:last-of-type {
+.callout.is-collapsible:not(.is-collapsed) .callout-content p:last-of-type {
 	padding-bottom: .75rem;
 }
 
