@@ -233,14 +233,8 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 [data-callout="tabbed"] > .callout-content > p {
 	margin: 0;
 	padding: 0;
-	flex: 0 0 auto;
+	flex: 1 1 auto;
 	min-width: 5rem;
-}
-
-@media (max-width: 800px) {
-	[data-callout="tabbed"] > .callout-content > p {
-		flex: 1 1 auto;
-	}
 }
 
 [data-callout="tabbed"] > .callout-content label > input {
