@@ -8,14 +8,10 @@ export const mapFn: Options["mapFn"] = (node) => {
   return node
 }
 export const filterFn: Options["filterFn"] = (node) => {
-  return node.slugSegment !== "tags"
+  const isUnlisted = node.data?.frontmatter?.unlisted === true
+  return node.slugSegment !== "tags" && !isUnlisted
 }
 export const sortFn: Options["sortFn"] = (a, b) => {
-  // mod: sort folders and files based on folderOrder and noteOrder
-  //      to find ways to retrieve folderOrder and noteOrder from frontmatter
-  //      we now have to include frontmatter in ContentDetails and linkIndex.set()
-
-  // extract order from frontmatter
   const orderA = a.isFolder
     ? a.data?.frontmatter?.folderOrder as number | undefined
     : a.data?.frontmatter?.noteOrder as number | undefined
@@ -23,20 +19,14 @@ export const sortFn: Options["sortFn"] = (a, b) => {
     ? b.data?.frontmatter?.folderOrder as number | undefined
     : b.data?.frontmatter?.noteOrder as number | undefined
 
-  // method I: folders first, then files, sort folders and files separately
-  // compare orderA and orderB, those undefined will be placed at the end
   if ((!a.isFolder && !b.isFolder) || (a.isFolder && b.isFolder)) {
     if (orderA !== undefined && orderB !== undefined) {
-      // compare based on the order
       return orderA - orderB;
     } else if (orderA !== undefined) {
-      // move B to the back
       return -1;
     } else if (orderB !== undefined) {
-      // move A to the back
       return 1;
     } else {
-      // fall back to alphabetical order
       return a.displayName.localeCompare(b.displayName);
     }
   }

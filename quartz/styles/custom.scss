@@ -241,6 +241,12 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 	display: none;
 }
 
+@media (min-width: 800px) {
+	[data-callout="tabbed"] > .callout-content > p {
+		flex: 0 0 auto;    /* На десктопе: сжимаются строго по ширине текста */
+	}
+}
+
 [data-callout="tabbed"] > .callout-content label {
 	display: block;
 	width: 100%;
