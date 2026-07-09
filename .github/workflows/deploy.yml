@@ -31,7 +31,7 @@ jobs:
         id: quartz-cache-path
         run: echo "dir=$(pwd)/.quartz-cache" >> $GITHUB_OUTPUT
       - name: Retrieve Quartz cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ steps.quartz-cache-path.outputs.dir }}
           key: ${{ runner.os }}-quartz-cache-${{ github.sha }}
