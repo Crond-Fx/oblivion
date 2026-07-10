@@ -129,7 +129,7 @@ a.internal {
 }
 
 .callout-content p:first-of-type {
-	padding-top: 0.25rem;
+	padding-top: 0.5rem;
 }
 
 blockquote.is-collapsible {
@@ -145,7 +145,7 @@ blockquote.is-collapsible {
 	padding: 0 1.25rem;
 }
 
-.callout-content p:first-of-type {
+.callout.is-collapsible > .callout-content p:first-of-type {
 	padding: 0;
 }
 
