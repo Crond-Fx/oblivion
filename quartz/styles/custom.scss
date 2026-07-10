@@ -124,7 +124,8 @@ a.internal {
 	padding: 1rem 0 0;
 }
 
-.callout>.callout-content {
+.callout > .callout-content {
+	gap: 0.5rem;
 	padding-bottom: 0.75rem;
 }
 
