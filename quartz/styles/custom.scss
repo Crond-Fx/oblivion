@@ -124,6 +124,11 @@ a.internal {
 	padding: 1rem 0 0;
 }
 
+.callout-title > .callout-title-inner > p {
+	font-family: var(--headerFont);
+	line-height: 1.5rem;
+}
+
 .callout > .callout-content {
 	gap: 0.5rem;
 	padding-bottom: 0.75rem;
