@@ -14,6 +14,32 @@ const defaultOptions: Options = {
   linkHeadings: true,
 }
 
+function rehypeExternalLinks() {
+  const walk = (node: any) => {
+    if (node.type === "element" && node.tagName === "a") {
+      const href = node.properties?.href
+
+      const isExternal = 
+        typeof href === "string" && 
+        (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//")) &&
+        !href.includes("crond-fx.github.io")
+
+      if (isExternal) {
+        if (!node.properties) node.properties = {}
+        node.properties.target = "_blank"
+        node.properties.rel = "noopener noreferrer"
+      }
+    }
+    if (node.children) {
+      node.children.forEach(walk)
+    }
+  }
+
+  return (tree: any) => {
+    walk(tree)
+  }
+}
+
 export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>> = (userOpts) => {
   const opts = { ...defaultOptions, ...userOpts }
   return {
@@ -25,6 +51,7 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>> =
       if (opts.linkHeadings) {
         return [
           rehypeSlug,
+          rehypeExternalLinks,
           [
             rehypeAutolinkHeadings,
             {
@@ -42,3 +69,4 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>> =
     },
   }
 }
+
