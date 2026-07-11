@@ -73,24 +73,26 @@ ul.toc-content.overflow>li>a {
 }
 
 .page>#quartz-body .center>article {
-	display: flex;
-	flex-direction: column;
-	gap: 0px;
-}
+	& {
+		display: flex;
+		flex-direction: column;
+		gap: 0px;
+	}
 
-.page>#quartz-body .center>article p {
-	margin-top: 0;
-	margin-bottom: 0.5rem;
-}
+	& p {
+		margin-top: 0;
+		margin-bottom: 0.5rem;
+	}
 
-.page>#quartz-body .center>article blockquote p {
-	margin-top: 0;
-	margin-bottom: 0;
-}
+	& blockquote p {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
 
-.page>#quartz-body .center>article ul {
-	margin-top: 0;
-	margin-bottom: 1rem;
+	& ul {
+		margin-top: 0;
+		margin-bottom: 1rem;
+	}
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -134,33 +136,39 @@ a.internal {
 	padding-bottom: 0.75rem;
 }
 
-.callout-content p:first-of-type {
+.callout > .callout-content p:first-of-type {
 	padding-top: 0.5rem;
 }
 
-blockquote.is-collapsible {
-	padding: 0;
-}
+.callout.is-collapsible {
+	& {
+		padding: 0;
+	}
 
-.callout.is-collapsible .callout-title {
-	cursor: pointer;
-	padding: 1rem 1.25rem 0.75rem;
-}
+	& .callout-title {
+		cursor: pointer;
+		padding: 1rem 1.25rem 0.75rem;
+	}
 
-.callout.is-collapsible > .callout-content {
-	padding: 0 1.25rem;
-}
+	& > .callout-content {
+		padding: 0 1.25rem;
+	}
 
-.callout.is-collapsible > .callout-content p:first-of-type {
-	padding: 0;
-}
+	& > .callout-content p:first-of-type {
+		padding: 0;
+	}
 
-.callout.is-collapsible:not(.is-collapsed) .callout-content p:last-of-type {
-	padding-bottom: .75rem;
-}
+	&:not(.is-collapsed) .callout-content p:last-of-type {
+		padding-bottom: .75rem;
+	}
 
-.callout.is-collapsible .callout-title .callout-title-inner {
-	flex-grow: 1;
+	&:not(.is-collapsed) .callout-content {
+		gap: 0;
+	}
+
+	& .callout-title .callout-title-inner {
+		flex-grow: 1;
+	}
 }
 
 img {
