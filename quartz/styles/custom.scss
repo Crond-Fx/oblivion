@@ -245,74 +245,77 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 
 
 /* Quartz tabs */
-[data-callout="tabbed"] {
-	background: transparent;
-	border: none;
-	padding: 0;
-}
-
-[data-callout="tabbed"] > .callout-title {
-	display: none;
-}
-
-[data-callout="tabbed"] > .callout-content {
-	padding: 0.25rem;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem 1rem;
-}
-
-[data-callout="tabbed"] > .callout-content > p {
-	margin: 0;
-	padding: 0;
-	flex: 1 1 auto;
-	min-width: 5rem;
-}
-
-[data-callout="tabbed"] > .callout-content label > input {
-	display: none;
-}
-
-@media (min-width: 800px) {
-	[data-callout="tabbed"] > .callout-content > p {
-		flex: 0 0 auto;    /* На десктопе: сжимаются строго по ширине текста */
+[data-callout="tabbed"] { 
+	& {
+		background: transparent;
+		border: none;
+		padding: 0;
 	}
-}
 
-[data-callout="tabbed"] > .callout-content label {
-	display: block;
-	width: 100%;
-	padding: 0.5rem 0.75ch;
-	border-bottom: 2px solid var(--lightgray);
-	font-family: var(--headerFont);
-	font-weight: 500;
-	color: var(--darkgray);
-	text-align: center;
-	cursor: pointer;
-	user-select: none;
-	white-space: nowrap;
-	transition: all 0.2s ease;
-}
+	& > .callout-title {
+		display: none;
+	}
 
-[data-callout="tabbed"] > .callout-content label:hover {
-	color: var(--tertiary);
-	border-bottom-color: var(--gray);
-}
+	& > .callout-content {
+		padding: 0.25rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1rem;
+	}
 
-[data-callout="tabbed"] > .callout-content label:has(input:checked) {
-	color: var(--dark);
-	border-bottom-color: var(--tertiary);
-}
+	& > .callout-content > p {
+		margin: 0;
+		padding: 0;
+		flex: 1 1 auto;
+		min-width: 5rem;
+	}
 
-[data-callout="tabbed"] > .callout-content p:not(:has(label input:checked)) + blockquote {
-	display: none;
-}
+	& > .callout-content label > input {
+		display: none;
+	}
 
-[data-callout="tabbed"] > .callout-content > blockquote {
-	order: 999;
-	flex: 1 1 100%;
-	margin-top: 1rem;
-	background-color: transparent;
-	padding-left: 0;
-	border: 0;
+	@media (min-width: 800px) {
+		& > .callout-content > p {
+			flex: 0 0 auto;
+		}
+	}
+
+	& > .callout-content label {
+		display: block;
+		width: 100%;
+		padding: 0.5rem 0.75ch;
+		border-bottom: 2px solid var(--lightgray);
+		font-family: var(--headerFont);
+		font-weight: 500;
+		color: var(--darkgray);
+		text-align: center;
+		cursor: pointer;
+		user-select: none;
+		white-space: nowrap;
+		transition: all 0.2s ease;
+	}
+
+	& > .callout-content label:hover {
+		color: var(--tertiary);
+		border-bottom-color: var(--gray);
+	}
+
+	& > .callout-content label:has(input:checked) {
+		color: var(--dark);
+		border-bottom-color: var(--tertiary);
+	}
+
+	& > .callout-content p:not(:has(label input:checked)) + blockquote {
+		display: none;
+	}
+
+	& > .callout-content > blockquote {
+		order: 999;
+		flex: 1 1 100%;
+		margin-top: 1rem;
+		background-color: transparent;
+		padding-left: 0;
+		border: 0;
+	}
+
 }
