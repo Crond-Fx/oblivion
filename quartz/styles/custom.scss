@@ -117,60 +117,6 @@ a.internal {
 	text-decoration: underline;
 }
 
-.callout {
-	padding: 0 1.25rem;
-}
-
-.callout-title {
-	gap: 1.25rem;
-	padding: 1rem 0 0;
-}
-
-.callout-title > .callout-title-inner > p {
-	font-family: var(--headerFont);
-	line-height: 1.5rem;
-}
-
-.callout > .callout-content {
-	gap: 0.5rem;
-	padding-bottom: 0.75rem;
-}
-
-.callout > .callout-content p:first-of-type {
-	padding-top: 0.5rem;
-}
-
-.callout.is-collapsible {
-	& {
-		padding: 0;
-	}
-
-	& .callout-title {
-		cursor: pointer;
-		padding: 1rem 1.25rem 0.75rem;
-	}
-
-	& > .callout-content {
-		padding: 0 1.25rem;
-	}
-
-	& > .callout-content p:first-of-type {
-		padding: 0;
-	}
-
-	&:not(.is-collapsed) .callout-content p:last-of-type {
-		padding-bottom: .75rem;
-	}
-
-	&:not(.is-collapsed) .callout-content {
-		gap: 0;
-	}
-
-	& .callout-title .callout-title-inner {
-		flex-grow: 1;
-	}
-}
-
 img {
 	border-radius: 0 !important;
 	margin: 0.75rem 0 0 !important;
@@ -252,6 +198,62 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 }
 
 
+.callout {
+	padding: 0 1.25rem;
+}
+
+.callout-title {
+	gap: 1.25rem;
+	padding: 1rem 0 0;
+}
+
+.callout-title > .callout-title-inner > p {
+	font-family: var(--headerFont);
+	line-height: 1.5rem;
+}
+
+.callout > .callout-content {
+	gap: 0.5rem;
+	padding-bottom: 0.75rem;
+}
+
+.callout > .callout-content p:first-of-type {
+	padding-top: 0.5rem;
+}
+
+
+.callout.is-collapsible {
+	& {
+		padding: 0;
+	}
+
+	& .callout-title {
+		cursor: pointer;
+		padding: 1rem 1.25rem;
+	}
+
+	& .callout-title .callout-title-inner {
+		flex-grow: 1;
+	}
+
+	& > .callout-content {
+		padding: 0 1.25rem;
+	}
+
+	& > .callout-content p:first-of-type {
+		padding: 0;
+	}
+
+	&:not(.is-collapsed) .callout-content p:last-of-type {
+		padding-bottom: .75rem;
+	}
+
+	&.is-collapsed .callout-content {
+		gap: 0;
+	}
+}
+
+
 /* Quartz tabs */
 [data-callout="tabbed"] { 
 	& {
@@ -276,6 +278,10 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 		padding: 0;
 		flex: 1 1 auto;
 		min-width: 5rem;
+	}
+
+	& > .callout-content p:first-of-type {
+		padding-top: 0;
 	}
 
 	& > .callout-content label > input {
