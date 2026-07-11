@@ -315,7 +315,8 @@ article > p:has(#spoiler-trigger:not([disabled])) ~ *:not(script):not(style) * {
 	}
 
 	& > .callout-content label:has(input:checked) {
-		color: var(--dark);
+		background-color: var(--lightgray);
+		color: var(--tertiary);
 		border-bottom-color: var(--tertiary);
 	}
 
